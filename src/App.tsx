@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components'
 import Scroll from './utils/Scroll';
 
@@ -10,7 +9,7 @@ function App() {
   return <>
     <Scroll />
     <Wrapper className="smooth-scroll">
-      <FrictionTextWrapper data-scroll-section/>
+      <FrictionTextWrapper/>
     </Wrapper>
   </>
 }

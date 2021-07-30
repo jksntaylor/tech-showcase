@@ -27,7 +27,7 @@ const FrictionTextMaterial = shaderMaterial({
   void main() {
     vec3 pos = position;
     pos.x += uTime * uSpeedMultiplier;
-    pos.y = position.y + 0.49 + sin(pos.x * uFrequency) * uScrollDelta * uAmplitude;
+    pos.y = position.y + 0.24 + sin(pos.x * uFrequency) * uScrollDelta * uAmplitude;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
   }
 `,`
@@ -76,7 +76,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
       scrollTrigger: {
         trigger: wrapper.current,
         scroller: '.smooth-scroll',
-        scrub: 0.2
+        scrub: 1.5
       }
     })
     tl.to(scrubProgress.current, {
@@ -94,8 +94,9 @@ const FrictionTextWrapper: React.FC<{}> = () => {
       frequency: 1.75,
       amplitude: 0.45,
       speedMultiplier: 0.17,
-      scrollMultiplier: 19.45,
+      scrollMultiplier: 28.7,
     })
+
     useEffect(() => {
       const gui = new dat.GUI()
       gui.add(guiObject.current, 'amplitude').min(0).max(5).step(0.01).onFinishChange(() => {
@@ -116,9 +117,9 @@ const FrictionTextWrapper: React.FC<{}> = () => {
           mat2.current.uSpeedMultiplier = guiObject.current.speedMultiplier
         }
       })
-      gui.add(guiObject.current, 'scrollMultiplier').min(0).max(30).step(0.01)
+      gui.add(guiObject.current, 'scrollMultiplier').min(0).max(50).step(0.1)
     }, [guiObject])
-      // END GUI
+    // END GUI
 
     const clock = new THREE.Clock()
 
@@ -136,49 +137,46 @@ const FrictionTextWrapper: React.FC<{}> = () => {
         time.current = newTime
         mat1.current.uTime += (timeDelta * Math.max(guiObject.current.speedMultiplier + Math.abs(newScrollDelta * guiObject.current.scrollMultiplier), 0))
         mat2.current.uTime -= (timeDelta * Math.max(guiObject.current.speedMultiplier + Math.abs(newScrollDelta * guiObject.current.scrollMultiplier), 0))
-        mat1.current.uTime %= (8.7 / guiObject.current.speedMultiplier)
-        mat2.current.uTime %= (8.7 / guiObject.current.speedMultiplier)
+        mat1.current.uTime %= (4.35 / guiObject.current.speedMultiplier)
+        mat2.current.uTime %= (4.35 / guiObject.current.speedMultiplier)
       }
     })
-    return (
-      <>
-        <Text
-          fontSize={ 1.4 }
-          letterSpacing={ -0.07 }
-          strokeWidth='0.5%'
-          strokeColor='white'
-          rotation={ new THREE.Euler(0, Math.PI, -Math.PI * 0.5) }
-        >
-          FRICTION TEXT FRICTION TEXT FRICTION TEXT FRICTION TEXT
-          <frictionTextMaterial
-            ref={ mat1 }
-            uTime={ 0 }
-            uScrollDelta={ 0 }
-            uFrequency={ guiObject.current.frequency }
-            uAmplitude={ guiObject.current.amplitude }
-            uSpeedMultiplier={ guiObject.current.speedMultiplier }
-            uDirection={ 0 }
-            side={ THREE.BackSide }
-          />
-        </Text>
-        <Text
-          fontSize={ 1.4 }
-          letterSpacing={ -0.07 }
-          rotation={ new THREE.Euler(0, 0, -Math.PI * 0.5) }
-        >
-          FRICTION TEXT FRICTION TEXT FRICTION TEXT FRICTION TEXT
-          <frictionTextMaterial
-            ref={ mat2 }
-            uTime={ 0 }
-            uScrollDelta={ 0 }
-            uFrequency={ guiObject.current.frequency }
-            uAmplitude={ guiObject.current.amplitude }
-            uSpeedMultiplier={ guiObject.current.speedMultiplier }
-            uDirection={ 1 }
-          />
-        </Text>
-      </>
-    )
+
+    return <>
+      <Text
+        fontSize={ 0.7 }
+        letterSpacing={ -0.07 }
+        strokeWidth='0.5%'
+        strokeColor='white'
+        rotation={ new THREE.Euler(0, Math.PI, -Math.PI * 0.5) }
+      >FRICTION TEXT FRICTION TEXT FRICTION TEXT FRICTION TEXT
+        <frictionTextMaterial
+          ref={ mat1 }
+          uTime={ 0 }
+          uScrollDelta={ 0 }
+          uFrequency={ guiObject.current.frequency }
+          uAmplitude={ guiObject.current.amplitude }
+          uSpeedMultiplier={ guiObject.current.speedMultiplier }
+          uDirection={ 0 }
+          side={ THREE.BackSide }
+        />
+      </Text>
+      <Text
+        fontSize={ 0.7 }
+        letterSpacing={ -0.07 }
+        rotation={ new THREE.Euler(0, 0, -Math.PI * 0.5) }
+      >FRICTION TEXT FRICTION TEXT FRICTION TEXT FRICTION TEXT
+        <frictionTextMaterial
+          ref={ mat2 }
+          uTime={ 0 }
+          uScrollDelta={ 0 }
+          uFrequency={ guiObject.current.frequency }
+          uAmplitude={ guiObject.current.amplitude }
+          uSpeedMultiplier={ guiObject.current.speedMultiplier }
+          uDirection={ 1 }
+        />
+      </Text>
+    </>
   }
   return (
     <>
@@ -188,43 +186,39 @@ const FrictionTextWrapper: React.FC<{}> = () => {
           <FrictionText />
         </Canvas>
       </CanvasWrapper>
-      {/* <Cover bottom={50}/>
-      <Cover bottom={150}/>
-      <Cover bottom={250}/>
-      <Cover bottom={350}/>
-      <Cover bottom={450}/>
-      <Cover bottom={550}/> */}
     </Wrapper>
     <Cover />
+    <ScrollDown>Scroll Down!</ScrollDown>
     </>
   )
 
 }
 
 const Wrapper = styled.section`
-  height: 75vw;
+  height: 200vw;
 `
 
 const CanvasWrapper = styled.div`
-  height: 90vw;
+  height: 200vw;
   width: 100%;
   position: fixed;
   top: 0;
 `
 
-// const Cover = styled.div<{ bottom: number}>`
-//   position: absolute;
-//   bottom: ${props => props.bottom}vh;
-//   left: 0;
-//   width: 100%;
-//   height: 50vh;
-//   background: rgba(255, 255, 255, 0.5);
-// `
-
 const Cover = styled.div`
   height: 90vw;
+  background: #e6e1cf;
   position: relative;
-  background: #c7bbbb
+`
+
+const ScrollDown = styled.p`
+  position: fixed;
+  top: 20px;
+  left: 50px;
+  color: white;
+  border: 1px solid white;
+  border-radius: 20px;
+  padding: 10px 20px;
 `
 
 export default FrictionTextWrapper
