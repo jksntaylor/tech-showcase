@@ -24,18 +24,16 @@ const FrictionTextMaterial = shaderMaterial({
   uniform float uSpeedMultiplier;
   uniform float uDirection;
 
-  varying vec2 vUv;
-
   void main() {
     vec3 pos = position;
     pos.x += uTime * uSpeedMultiplier;
-    pos.y = position.y + 0.57 + abs(sin(pox.x * uFrequency)) * uScrollDelta * uAmplitude;
+    pos.y = position.y + 0.49 + sin(pos.x * uFrequency) * uScrollDelta * uAmplitude;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
   }
 `,`
   uniform float uDirection;
   void main() {
-    if (uDirection === 0.0) gl_FragColor = vec4(0.008, 0.012, 0.027, 1.0);
+    if (uDirection == 0.0) gl_FragColor = vec4(0.008, 0.012, 0.027, 1.0);
     else gl_FragColor = vec4(1.0);
   }
 `)
@@ -92,110 +90,113 @@ const FrictionTextWrapper: React.FC<{}> = () => {
 
   const FrictionText: React.FC<{}> = () => {
     // GUI
-    const guiObject = {
-      frequency: 0.75,
-      amplitude: 0.35,
+    const guiObject = useRef({
+      frequency: 1.75,
+      amplitude: 0.45,
       speedMultiplier: 0.17,
       scrollMultiplier: 19.45,
-      modulus: 12.1
-    }
+    })
     useEffect(() => {
       const gui = new dat.GUI()
-        gui.add(guiObject, 'amplitude').min(0).max(20).step(0.01).onFinishChange(() => {
-          if (mat1.current && mat2.current) {
-            mat1.current.uAmplitude = guiObject.amplitude
-            mat2.current.uAmplitude = guiObject.amplitude
-          }
-        })
-        gui.add(guiObject, 'frequency').min(0).max(3).step(0.001).onFinishChange(() => {
-          if (mat1.current && mat2.current) {
-            mat1.current.uFrequency = guiObject.frequency
-            mat2.current.uFrequency = guiObject.frequency
-          }
-        })
-        gui.add(guiObject, 'speedMultiplier').min(0).max(5).step(0.001).onFinishChange(() => {
-          if (mat1.current && mat2.current) {
-            mat1.current.uSpeedMultiplier = guiObject.speedMultiplier
-            mat2.current.uSpeedMultiplier = guiObject.speedMultiplier
-          }
-        })
-        gui.add(guiObject, 'scrollMultiplier').min(0).max(30).step(0.01)
-        gui.add(guiObject, 'modulus').min(0).max(100).step(0.1)
-    }, [])
-    // END GUI
+      gui.add(guiObject.current, 'amplitude').min(0).max(5).step(0.01).onFinishChange(() => {
+        if (mat1.current && mat2.current) {
+          mat1.current.uAmplitude = guiObject.current.amplitude
+          mat2.current.uAmplitude = guiObject.current.amplitude
+        }
+      })
+      gui.add(guiObject.current, 'frequency').min(0).max(3).step(0.001).onFinishChange(() => {
+        if (mat1.current && mat2.current) {
+          mat1.current.uFrequency = guiObject.current.frequency
+          mat2.current.uFrequency = guiObject.current.frequency
+        }
+      })
+      gui.add(guiObject.current, 'speedMultiplier').min(0).max(3).step(0.001).onChange(() => {
+        if (mat1.current && mat2.current) {
+          mat1.current.uSpeedMultiplier = guiObject.current.speedMultiplier
+          mat2.current.uSpeedMultiplier = guiObject.current.speedMultiplier
+        }
+      })
+      gui.add(guiObject.current, 'scrollMultiplier').min(0).max(30).step(0.01)
+    }, [guiObject])
+      // END GUI
 
     const clock = new THREE.Clock()
 
-
     useFrame(() => {
-      scrollDelta.current = lerp(scrollDelta.current, scrubProgress.current.value - scrollY.current, 0.1)
-      scrollY.current = scrubProgress.current.value
-      let elapsed = clock.getElapsedTime()
-      let tDelta = elapsed - time.current
-      time.current = elapsed
-
-      let addedTime = (tDelta + Math.max(guiObject.speedMultiplier + Math.abs(scrollDelta.current * guiObject.scrollMultiplier), 0));
-      let modTime = (guiObject.modulus / guiObject.speedMultiplier);
-
-      if(mat1.current && mat2.current) {
+      if (mat1.current && mat2.current) {
+        const newScrollY = scrubProgress.current.value
+        const newScrollDelta = lerp(scrollDelta.current, newScrollY - scrollY.current, 0.1)
+        scrollY.current = newScrollY
+        scrollDelta.current = newScrollDelta
         mat1.current.uScrollDelta = scrollDelta.current
         mat2.current.uScrollDelta = -scrollDelta.current
-        mat1.current.uTime += addedTime
-        mat2.current.uTime += addedTime
-        mat1.current.uTime %= modTime
-        mat2.current.uTime %= modTime
+
+        let newTime = clock.getElapsedTime()
+        let timeDelta = newTime - time.current
+        time.current = newTime
+        mat1.current.uTime += (timeDelta * Math.max(guiObject.current.speedMultiplier + Math.abs(newScrollDelta * guiObject.current.scrollMultiplier), 0))
+        mat2.current.uTime -= (timeDelta * Math.max(guiObject.current.speedMultiplier + Math.abs(newScrollDelta * guiObject.current.scrollMultiplier), 0))
+        mat1.current.uTime %= (8.7 / guiObject.current.speedMultiplier)
+        mat2.current.uTime %= (8.7 / guiObject.current.speedMultiplier)
       }
     })
     return (
       <>
         <Text
-          font="/Roobert-Regular.woff"
           fontSize={ 1.4 }
           letterSpacing={ -0.07 }
           strokeWidth='0.5%'
           strokeColor='white'
           rotation={ new THREE.Euler(0, Math.PI, -Math.PI * 0.5) }
         >
-          FRICTION TEXT FRICTION TEXT FRICTION TEXT
+          FRICTION TEXT FRICTION TEXT FRICTION TEXT FRICTION TEXT
           <frictionTextMaterial
             ref={ mat1 }
             uTime={ 0 }
             uScrollDelta={ 0 }
-            uFrequency={ guiObject.frequency }
-            uAmplitude={ guiObject.amplitude }
-            uSpeedMultiplier={ guiObject.speedMultiplier }
+            uFrequency={ guiObject.current.frequency }
+            uAmplitude={ guiObject.current.amplitude }
+            uSpeedMultiplier={ guiObject.current.speedMultiplier }
             uDirection={ 0 }
             side={ THREE.BackSide }
           />
         </Text>
         <Text
-          font="/Roobert-Regular.woff"
           fontSize={ 1.4 }
           letterSpacing={ -0.07 }
           rotation={ new THREE.Euler(0, 0, -Math.PI * 0.5) }
         >
-          FRICTION TEXT FRICTION TEXT FRICTION TEXT
+          FRICTION TEXT FRICTION TEXT FRICTION TEXT FRICTION TEXT
           <frictionTextMaterial
             ref={ mat2 }
             uTime={ 0 }
             uScrollDelta={ 0 }
-            uFrequency={ guiObject.frequency }
-            uAmplitude={ guiObject.amplitude }
-            uSpeedMultiplier={ guiObject.speedMultiplier }
-            uDirection={ 0 }
+            uFrequency={ guiObject.current.frequency }
+            uAmplitude={ guiObject.current.amplitude }
+            uSpeedMultiplier={ guiObject.current.speedMultiplier }
+            uDirection={ 1 }
           />
         </Text>
       </>
     )
   }
   return (
-    <Wrapper>
-      <CanvasWrapper ref={wrapper}>
+    <>
+    <Wrapper ref={wrapper}>
+      <CanvasWrapper>
         <Canvas dpr={Math.min(2, window.devicePixelRatio)}>
           <FrictionText />
         </Canvas>
       </CanvasWrapper>
+      {/* <Cover bottom={50}/>
+      <Cover bottom={150}/>
+      <Cover bottom={250}/>
+      <Cover bottom={350}/>
+      <Cover bottom={450}/>
+      <Cover bottom={550}/> */}
     </Wrapper>
+    <Cover />
+    </>
   )
 
 }
@@ -209,6 +210,21 @@ const CanvasWrapper = styled.div`
   width: 100%;
   position: fixed;
   top: 0;
+`
+
+// const Cover = styled.div<{ bottom: number}>`
+//   position: absolute;
+//   bottom: ${props => props.bottom}vh;
+//   left: 0;
+//   width: 100%;
+//   height: 50vh;
+//   background: rgba(255, 255, 255, 0.5);
+// `
+
+const Cover = styled.div`
+  height: 90vw;
+  position: relative;
+  background: #c7bbbb
 `
 
 export default FrictionTextWrapper

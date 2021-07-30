@@ -1,13 +1,25 @@
 import React from 'react';
-import './App.css';
+import styled from 'styled-components'
+import Scroll from './utils/Scroll';
+
 import FrictionTextWrapper from './projects/FrictionText';
 
+import './App.css';
+
 function App() {
-  return (
-    <div className="App">
-      <FrictionTextWrapper />
-    </div>
-  );
+  return <>
+    <Scroll />
+    <Wrapper className="smooth-scroll">
+      <FrictionTextWrapper data-scroll-section/>
+    </Wrapper>
+  </>
 }
+
+const Wrapper = styled.main`
+  background: #020307;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`
 
 export default App;
