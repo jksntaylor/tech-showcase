@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import * as THREE from 'three'
-import { ReactThreeFiber, Canvas, extend, useFrame } from '@react-three/fiber'
 import { shaderMaterial, Text } from '@react-three/drei'
+import { ReactThreeFiber, Canvas, extend, useFrame } from '@react-three/fiber'
 import styled from 'styled-components'
 import { lerp } from 'three/src/math/MathUtils'
 import gsap from 'gsap'
@@ -15,11 +15,11 @@ const FrictionTextMaterial = shaderMaterial({
   uAmplitude: 1,
   uSpeedMultiplier: 1,
   uDirection: 1,
-  uBackColor: new THREE.Vector4(0.0),
-  uFrontColor: new THREE.Vector4(1.0, 1.0, 1.0, 1.0)
+  uColor: new THREE.Vector4(1.0, 1.0, 1.0, 1.0)
 },
 `
   #define PI 3.14159265
+
   uniform float uTime;
   uniform float uScrollDelta;
   uniform float uFrequency;
@@ -35,12 +35,11 @@ const FrictionTextMaterial = shaderMaterial({
   }
 `,`
   uniform float uDirection;
-  uniform vec4 uBackColor;
-  uniform vec4 uFrontColor;
+  uniform vec4 uColor;
 
   void main() {
-    if (uDirection == 0.0) gl_FragColor = uBackColor;
-    else gl_FragColor = uFrontColor;
+    if (uDirection == 0.0) gl_FragColor = vec4(0.);
+    else gl_FragColor = uColor;
   }
 `)
 
@@ -53,17 +52,12 @@ type FrictionMaterial = {
   uTime: number;
   uDirection: number;
   side: THREE.Side;
-  uBackColor: THREE.Vector4;
-  uFrontColor: THREE.Vector4;
+  uColor: THREE.Vector4;
 }
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      frictionTextMaterial: ReactThreeFiber.Object3DNode<FrictionMaterial, typeof FrictionTextMaterial>
-    }
-  }
-}
+declare global { namespace JSX { interface IntrinsicElements {
+  frictionTextMaterial: ReactThreeFiber.Object3DNode<FrictionMaterial, typeof FrictionTextMaterial>
+}}}
 
 extend({ FrictionTextMaterial })
 
@@ -106,7 +100,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
   })
 
   const FrictionText: React.FC<{}> = () => {
-    const filledText = useRef()
+    const filledText = useRef<any>()
     // GUI
     useEffect(() => {
       const gui = new dat.GUI()
@@ -129,24 +123,17 @@ const FrictionTextWrapper: React.FC<{}> = () => {
         }
       })
       gui.add(guiObject.current, 'scrollMultiplier').min(0).max(50).step(0.1)
-      // gui.add(guiObject.current, 'vertical').onChange(() => {
-      //   console.log('change')
-      // })
       gui.addColor(guiObject.current, 'background').onChange(() => {
         if (wrapper.current && mat1.current && mat2.current) {
-          let shaderRGB = hexToShaderRGB(guiObject.current.background)
           wrapper.current.style.backgroundColor = guiObject.current.background
-          mat1.current.uBackColor = shaderRGB
-          mat2.current.uBackColor = shaderRGB
         }
       })
       gui.addColor(guiObject.current, 'textColor').onChange(() => {
         if (filledText.current && mat1.current && mat2.current) {
           let shaderRGB = hexToShaderRGB(guiObject.current.textColor)
-          // @ts-ignore
           filledText.current.strokeColor = guiObject.current.textColor
-          mat1.current.uFrontColor = shaderRGB
-          mat2.current.uFrontColor = shaderRGB
+          mat1.current.uColor = shaderRGB
+          mat2.current.uColor = shaderRGB
         }
       })
     }, [])
@@ -154,6 +141,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
 
     const clock = new THREE.Clock()
 
+    // ANIMATION
     useFrame(() => {
       if (mat1.current && mat2.current) {
         const newScrollY = scrubProgress.current.value
@@ -172,6 +160,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
         mat2.current.uTime %= (4.35 / guiObject.current.speedMultiplier)
       }
     })
+    // END ANIMATION
 
     return <>
       <Text
@@ -212,7 +201,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
   }
   return (
     <>
-    <Wrapper ref={wrapper} background={guiObject.current.background}>
+    <Wrapper ref={wrapper} background={guiObject.current.background} id="frictionTextSticky">
       <CanvasWrapper>
         <Canvas dpr={Math.min(2, window.devicePixelRatio)}>
           <FrictionText />
@@ -220,7 +209,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
       </CanvasWrapper>
     </Wrapper>
     <Cover />
-    <ScrollDown>Scroll Down!</ScrollDown>
+    <ScrollDown data-scroll data-scroll-sticky data-scroll-target="#frictionTextSticky">Scroll Down!</ScrollDown>
     </>
   )
 
