@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+// @ts-ignore
 import LocomotiveScroll from "locomotive-scroll";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -22,9 +23,7 @@ const Scroll = () => {
 
     ScrollTrigger.scrollerProxy(".smooth-scroll", {
       scrollTop(value) {
-        return arguments.length
-          ? locomotiveScroll.scrollTo(value, 0, 0)
-          : locomotiveScroll.scroll.instance.scroll.y;
+        return arguments.length ? locomotiveScroll.scrollTo(value, 0, 0) : locomotiveScroll.scroll.instance.scroll.y;
       },
       getBoundingClientRect() {
         return {
@@ -35,9 +34,7 @@ const Scroll = () => {
         };
       },
       //@ts-ignore
-      pinType: document.querySelector(".smooth-scroll").style.transform
-        ? "transform"
-        : "fixed",
+      pinType: document.querySelector(".smooth-scroll").style.transform ? "transform" : "fixed",
     });
     ScrollTrigger.addEventListener("refresh", () => locomotiveScroll.update());
     ScrollTrigger.refresh();
