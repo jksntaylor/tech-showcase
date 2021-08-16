@@ -4,6 +4,8 @@ import Scroll from './utils/Scroll';
 import './App.css';
 
 import Dashboard from './components/Dashboard';
+
+import CircleImageWarp from './components/CircleImageWarp';
 import FrictionTextWrapper from './components/FrictionText';
 import FixedSlider from './components/FixedSlider';
 import GlitchScroll from './components/GlitchScroll';
@@ -20,16 +22,39 @@ function App() {
     <Wrapper className="smooth-scroll">
       <Router>
         <Switch>
-          <Route path="/" exact component={Dashboard} />
-          <Route path="/fixed-slider" component={FixedSlider} />
-          <Route path="/friction-text" component={FrictionTextWrapper} />
-          <Route path="/glitch-scroll" component={GlitchScroll} />
-          <Route path="/greenscreen" component={GreenScreen} />
-          <Route path="/image-spotlight" component={ImageSpotlight} />
-          <Route path="/marquee-menu" component={MarqueeHoverMenu} />
-          <Route path="/project-carousel" component={ProjectCarousel} />
-          <Route path="/scroll-down" component={ScrollDown} />
-          <Route path="/skew-text" component={SkewText} />
+          <Route path="/" exact>
+            <Dashboard />
+          </Route>
+          <Route path="/circle-image-warp">
+            <CircleImageWarp />
+          </Route>
+          <Route path="/friction-text">
+            <FrictionTextWrapper />
+          </Route>
+          <Route path="/fixed-slider">
+            <FixedSlider />
+          </Route>
+          <Route path="/glitch-scroll">
+            <GlitchScroll />
+          </Route>
+          <Route path="/greenscreen">
+            <GreenScreen />
+          </Route>
+          <Route path="/image-spotlight">
+            <ImageSpotlight />
+          </Route>
+          <Route path="/marquee-menu">
+            <MarqueeHoverMenu />
+          </Route>
+          <Route path="/project-carousel">
+            <ProjectCarousel />
+          </Route>
+          <Route path="/scroll-down">
+            <ScrollDown />
+          </Route>
+          <Route path="/skew-text">
+            <SkewText />
+          </Route>
         </Switch>
       </Router>
     </Wrapper>

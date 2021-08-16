@@ -18,8 +18,6 @@ const FrictionTextMaterial = shaderMaterial({
   uColor: new THREE.Vector4(1.0, 1.0, 1.0, 1.0)
 },
 `
-  #define PI 3.14159265
-
   uniform float uTime;
   uniform float uScrollDelta;
   uniform float uFrequency;
@@ -78,7 +76,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
       scrollTrigger: {
         trigger: wrapper.current,
         scroller: '.smooth-scroll',
-        scrub: 1.75
+        scrub: 0.75
       }
     })
     tl.to(scrubProgress.current, {
@@ -100,7 +98,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
   })
 
   const FrictionText: React.FC<{}> = () => {
-    const filledText = useRef<any>()
+    const filledText = useRef<any>(null)
     // GUI
     useEffect(() => {
       const gui = new dat.GUI()
@@ -136,6 +134,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
           mat2.current.uColor = shaderRGB
         }
       })
+      return () => gui.destroy()
     }, [])
     // END GUI
 
@@ -203,34 +202,41 @@ const FrictionTextWrapper: React.FC<{}> = () => {
     <>
     <Wrapper ref={wrapper} background={guiObject.current.background} id="frictionTextSticky">
       <CanvasWrapper>
+        <Cover />
         <Canvas dpr={Math.min(2, window.devicePixelRatio)}>
           <FrictionText />
         </Canvas>
+        <Cover />
       </CanvasWrapper>
     </Wrapper>
-    <Cover />
-    <ScrollDown data-scroll data-scroll-sticky data-scroll-target="#frictionTextSticky">Scroll Down!</ScrollDown>
+    <ScrollDown data-scroll data-scroll-sticky data-scroll-target="#frictionTextSticky">Scroll!</ScrollDown>
     </>
   )
 
 }
 
 const Wrapper = styled.section<{ background: string }>`
-  height: 200vw;
+  height: 250vw;
   background-color: ${props => props.background};
 `
 
 const CanvasWrapper = styled.div`
-  height: 200vw;
+  height: 250vw;
   width: 100%;
-  position: fixed;
-  top: 0;
+  position: relative;
 `
 
 const Cover = styled.div`
-  height: 90vw;
-  background: #e6e1cf;
-  position: relative;
+  height: 20vw;
+  background: #ffffff70;
+  position: absolute;
+  z-index: 20;
+  width: 100%;
+  top: 0;
+  &:last-of-type {
+    top: initial;
+    bottom: 0;
+  }
 `
 
 const ScrollDown = styled.p`
