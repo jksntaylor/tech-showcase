@@ -6,9 +6,10 @@ import styled from "styled-components"
 import * as dat from 'dat.gui'
 
 import { hexToShaderRGB } from "../utils/Functions"
+import { dpr } from "../utils/Constants"
 import { lerp } from "three/src/math/MathUtils"
 
-import Source7 from '../assets/images/source7.png'
+import Source7 from '../assets/greenscreen/source7.png'
 
 const GreenScreenMaterial = shaderMaterial({
   uFullScreen: 0,
@@ -82,10 +83,6 @@ declare global { namespace JSX { interface IntrinsicElements {
 
 extend({ GreenScreenMaterial })
 
-const dpr = Math.min(window.devicePixelRatio, 2)
-
-
-
 const GreenScreen: React.FC<{}> = () => {
 
   const canvas = useRef<HTMLDivElement>(null)
@@ -128,7 +125,6 @@ const GreenScreen: React.FC<{}> = () => {
 
     const texture = useTexture(Source7)
     const material = useRef<GreenScreenType>(null)
-    const radius = useRef(0)
 
     const mouse = useRef(new THREE.Vector2(0, 0))
     const cursor = useRef(new THREE.Vector2(0, 0))

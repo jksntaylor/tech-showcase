@@ -15,7 +15,7 @@ const FrictionTextMaterial = shaderMaterial({
   uAmplitude: 1,
   uSpeedMultiplier: 1,
   uDirection: 1,
-  uColor: new THREE.Vector4(1.0, 1.0, 1.0, 1.0)
+  uColor: new THREE.Vector4(0.988, 0.847, .714, 1.0)
 },
 `
   uniform float uTime;
@@ -28,7 +28,7 @@ const FrictionTextMaterial = shaderMaterial({
   void main() {
     vec3 pos = position;
     pos.x += uTime * uSpeedMultiplier;
-    pos.y = position.y + 0.239 + sin(pos.x * uFrequency) * uScrollDelta * uAmplitude;
+    pos.y = position.y + 0.2395 + sin(pos.x * uFrequency) * uScrollDelta * uAmplitude;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
   }
 `,`
@@ -76,7 +76,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
       scrollTrigger: {
         trigger: wrapper.current,
         scroller: '.smooth-scroll',
-        scrub: 0.75
+        scrub: 1
       }
     })
     tl.to(scrubProgress.current, {
@@ -93,8 +93,8 @@ const FrictionTextWrapper: React.FC<{}> = () => {
     speedMultiplier: 0.17,
     scrollMultiplier: 28.7,
     vertical: true,
-    background: '#020307',
-    textColor: '#FFFFFF'
+    background: '#320819',
+    textColor: '#fcd8b6'
   })
 
   const FrictionText: React.FC<{}> = () => {
@@ -227,15 +227,16 @@ const CanvasWrapper = styled.div`
 `
 
 const Cover = styled.div`
-  height: 20vw;
-  background: #ffffff70;
+  height: 30vw;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
   position: absolute;
-  z-index: 20;
+  z-index: 9;
   width: 100%;
   top: 0;
   &:last-of-type {
     top: initial;
     bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
   }
 `
 
@@ -247,6 +248,7 @@ const ScrollDown = styled.p`
   border: 1px solid white;
   border-radius: 20px;
   padding: 10px 20px;
+  z-index: 10;
 `
 
 export default FrictionTextWrapper

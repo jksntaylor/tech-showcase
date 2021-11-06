@@ -12,9 +12,10 @@ import GlitchScroll from './components/GlitchScroll';
 import GreenScreen from './components/GreenScreen';
 import ImageSpotlight from './components/ImageSpotlight';
 import MarqueeHoverMenu from './components/MarqueeHoverMenu';
-import ProjectCarousel from './components/ProjectCarousel';
+import ProjectCarousel from './components/ScrollCarousel';
 import ScrollDown from './components/ScrollDown';
 import SkewText from './components/SkewText';
+import PixelRivers from './components/PixelRivers';
 
 function App() {
   return <>
@@ -46,7 +47,10 @@ function App() {
           <Route path="/marquee-menu">
             <MarqueeHoverMenu />
           </Route>
-          <Route path="/project-carousel">
+          <Route path="/pixel-rivers">
+            <PixelRivers />
+          </Route>
+          <Route path="/scroll-carousel">
             <ProjectCarousel />
           </Route>
           <Route path="/scroll-down">
