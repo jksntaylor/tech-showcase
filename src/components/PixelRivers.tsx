@@ -1,8 +1,7 @@
 import React, { Suspense, useEffect, useRef } from "react"
 import { shaderMaterial, useTexture } from "@react-three/drei"
-import { extend, Canvas, ReactThreeFiber, useFrame } from "@react-three/fiber"
-import { EffectComposer, Noise, Vignette } from "@react-three/postprocessing"
-import { Effect } from 'postprocessing'
+import { extend, Canvas, ReactThreeFiber } from "@react-three/fiber"
+import { EffectComposer } from "@react-three/postprocessing"
 import * as THREE from 'three'
 import styled from "styled-components"
 import { dpr } from "../utils/Constants"
@@ -11,6 +10,8 @@ import image1 from '../assets/pixelRivers/pixelRivers1.jpg'
 import image2 from '../assets/pixelRivers/pixelRivers2.jpg'
 import image3 from '../assets/pixelRivers/pixelRivers3.jpg'
 import image4 from '../assets/pixelRivers/pixelRivers4.jpg'
+
+import { MyCustomEffect } from "../assets/pixelRivers/pixelRiverPass"
 
 const PixelRiverImageMaterial = shaderMaterial({
   uTexture: new THREE.Texture()
@@ -55,6 +56,7 @@ const Image: React.FC<ImageProps> = ({ src, positionX, positionY }) => {
 
   useEffect(() => {
     if (material.current) material.current.uTexture = texture
+    texture.encoding = THREE.sRGBEncoding
   }, [texture])
 
   return <mesh position={new THREE.Vector3(positionX, positionY, 1)}>
@@ -69,26 +71,27 @@ const Image: React.FC<ImageProps> = ({ src, positionX, positionY }) => {
 const PixelRivers: React.FC<{}> = () => {
 
   // use this to trigger transition based on up/down
-  useEffect(() => {
-    window.addEventListener('wheel', e => {
-      console.log(e.deltaY > 0 ? 'down' : 'up')
-    })
-    return () => window.removeEventListener('wheel', e => {
-      console.log(e.deltaY > 0 ? 'down' : 'up')
-    })
-  }, [])
+  // useEffect(() => {
+  //   window.addEventListener('wheel', e => {
+  //     console.log(e.deltaY > 0 ? 'down' : 'up')
+  //   })
+  //   return () => window.removeEventListener('wheel', e => {
+  //     console.log(e.deltaY > 0 ? 'down' : 'up')
+  //   })
+  // }, [])
+
+
 
   return <Wrapper>
     <Suspense fallback={<></>}>
-      <Canvas dpr={dpr} camera={{ zoom: 0.5 }}>
-        <Image src={image1} positionX={3} positionY={2.5}/>
-        <Image src={image2} positionX={-3} positionY={2.5}/>
-        <Image src={image3} positionX={3} positionY={-2.5}/>
-        <Image src={image4} positionX={-3} positionY={-2.5}/>
-        {/* <EffectComposer>
-          <Noise opacity={0.07} />
-          <Vignette eskil={false} offset={0.1} darkness={1.1} />
-        </EffectComposer> */}
+      <Canvas dpr={dpr} camera={{ zoom: 1 }}>
+        <Image src={image1} positionX={2.5} positionY={1.75}/>
+        <Image src={image2} positionX={-2.5} positionY={1.75}/>
+        <Image src={image3} positionX={2.5} positionY={-1.75}/>
+        <Image src={image4} positionX={-2.5} positionY={-1.75}/>
+        <EffectComposer>
+          <MyCustomEffect />
+        </EffectComposer>
       </Canvas>
     </Suspense>
   </Wrapper>
