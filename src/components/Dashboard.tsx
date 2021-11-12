@@ -42,7 +42,7 @@ const projectData = [
     name: 'Pixel Rivers',
     gif: '',
     link: '/pixel-rivers'
-  }
+  },
   {
     name: 'Project Carousel',
     gif: '',
