@@ -24,6 +24,11 @@ const projectData = [
     link: '/glitch-scroll'
   },
   {
+    name: 'Gooey Noise',
+    gif: '',
+    link: '/gooey-noise'
+  },
+  {
     name: 'Greenscreen',
     gif: '',
     link: '/greenscreen'

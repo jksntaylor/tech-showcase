@@ -80,15 +80,13 @@ const PixelRivers: React.FC<{}> = () => {
   //   })
   // }, [])
 
-
-
   return <Wrapper>
     <Suspense fallback={<></>}>
-      <Canvas dpr={dpr} camera={{ zoom: 1 }}>
-        <Image src={image1} positionX={2.5} positionY={1.75}/>
-        <Image src={image2} positionX={-2.5} positionY={1.75}/>
-        <Image src={image3} positionX={2.5} positionY={-1.75}/>
-        <Image src={image4} positionX={-2.5} positionY={-1.75}/>
+      <Canvas dpr={dpr} camera={{ zoom: 0.7 }} linear={true}>
+        <Image src={image1} positionX={3} positionY={2.25}/>
+        <Image src={image2} positionX={-3} positionY={2.25}/>
+        <Image src={image3} positionX={3} positionY={-2.25}/>
+        <Image src={image4} positionX={-3} positionY={-2.25}/>
         <EffectComposer>
           <MyCustomEffect />
         </EffectComposer>

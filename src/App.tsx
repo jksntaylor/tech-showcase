@@ -9,6 +9,7 @@ import CircleImageWarp from './components/CircleImageWarp';
 import FrictionTextWrapper from './components/FrictionText';
 import FixedSlider from './components/FixedSlider';
 import GlitchScroll from './components/GlitchScroll';
+import GooeyNoise from './components/GooeyNoise';
 import GreenScreen from './components/GreenScreen';
 import ImageSpotlight from './components/ImageSpotlight';
 import MarqueeHoverMenu from './components/MarqueeHoverMenu';
@@ -37,6 +38,9 @@ function App() {
           </Route>
           <Route path="/glitch-scroll">
             <GlitchScroll />
+          </Route>
+          <Route path="/gooey-noise">
+            <GooeyNoise />
           </Route>
           <Route path="/greenscreen">
             <GreenScreen />

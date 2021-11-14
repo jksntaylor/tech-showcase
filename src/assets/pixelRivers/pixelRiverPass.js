@@ -28,7 +28,7 @@ let _uProgress, _uTime
 
 // Effect implementation
 class MyCustomEffectImpl extends Effect {
-  constructor({ progress = 0.8, time = 0 } = {}) {
+  constructor({ progress = 0.006, time = 0 } = {}) {
     super('MyCustomEffect', fragmentShader, {
       uniforms: new Map([['progress', new Uniform(progress)], ['time', new Uniform(time)]])
     })
