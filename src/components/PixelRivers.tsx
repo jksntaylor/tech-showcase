@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from "react"
 import { shaderMaterial, useTexture } from "@react-three/drei"
-import { extend, Canvas, ReactThreeFiber, useFrame } from "@react-three/fiber"
+import { extend, Canvas, ReactThreeFiber, useFrame, useThree } from "@react-three/fiber"
 import { EffectComposer } from "@react-three/postprocessing"
 import * as THREE from 'three'
 import gsap from 'gsap'
@@ -71,7 +71,7 @@ if (material.current) material.current.uTexture = texture
 
 const Effects: React.FC<{}> = () => {
 
-  const progress = useRef({ value: 0.005 })
+  const progress = useRef({ value: 0.62 })
   const [realProgress, setRealProgress] = useState(0)
   const effectRef = useRef()
 
@@ -86,13 +86,17 @@ const Effects: React.FC<{}> = () => {
   const handleDown = () => {
     console.log('down')
     gsap.to(progress.current, {
-      value: 0.005,
+      value: 0.002,
       duration: 3
     })
   }
 
+  const { clock } = useThree()
+
   useFrame(() => {
     if (realProgress !== progress.current.value) setRealProgress(progress.current.value)
+    // @ts-ignore
+    effectRef.current.uniforms.get('time').value = clock.getElapsedTime() * 0.2
   })
 
   useEffect(() => {
@@ -105,7 +109,7 @@ const Effects: React.FC<{}> = () => {
   }, [])
 
   return <EffectComposer>
-    <PixelRiverEffect ref={effectRef} progress={realProgress} />
+    <PixelRiverEffect ref={effectRef} progress={realProgress} time={0}/>
   </EffectComposer>
 }
 
@@ -113,10 +117,10 @@ const PixelRivers: React.FC<{}> = () => {
   return <Wrapper>
     <Suspense fallback={<></>}>
       <Canvas dpr={dpr} camera={{ zoom: 0.5 }} linear={true}>
-        <Image src={image1} positionX={7} positionY={-3.75}/>
-        <Image src={image2} positionX={2.5} positionY={-3.75}/>
-        <Image src={image3} positionX={-2.5} positionY={-3.75}/>
-        <Image src={image4} positionX={-7} positionY={-3.75}/>
+        <Image src={image1} positionX={6.75} positionY={-3.75}/>
+        <Image src={image2} positionX={2.25} positionY={-3.75}/>
+        <Image src={image3} positionX={-2.25} positionY={-3.75}/>
+        <Image src={image4} positionX={-6.75} positionY={-3.75}/>
         <Effects />
       </Canvas>
     </Suspense>

@@ -25,26 +25,29 @@ const fragmentShader = `
 
 type Props = {
   progress: number
+  time: number
 }
 
 let _uProgress: number | undefined = 0
+let _uTime: number = 0
 // Effect implementation
 class PixelRiverPass extends Effect {
-  constructor(props: Props = { progress: 0 }) {
+  constructor(props: Props = { progress: 0, time: 0 }) {
     super('PixelRiverEffect', fragmentShader, {
       uniforms: new Map([['progress', new Uniform(props.progress)], ['time', new Uniform(0)]]),
       blendFunction: BlendFunction.NORMAL
     })
     _uProgress = props.progress
+    _uTime = props.time
   }
 
   update(x: any, y: any, delta: number) {
     this.uniforms.get('progress').value = _uProgress
-    this.uniforms.get('time').value += delta * 0.2
+    this.uniforms.get('time').value += _uTime * 0.2
   }
 }
 // Effect component
-export const PixelRiverEffect = forwardRef((props: { progress: number }, ref) => {
-  const effect = useMemo(() => new PixelRiverPass({ progress: props.progress }), [props.progress])
+export const PixelRiverEffect = forwardRef((props: { progress: number, time: number }, ref) => {
+  const effect = useMemo(() => new PixelRiverPass({ progress: props.progress, time: props.time }), [props.progress, props.time])
   return <primitive ref={ref} props={props} object={effect} dispose={null} />
 })
