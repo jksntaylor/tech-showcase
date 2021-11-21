@@ -1,7 +1,8 @@
 import React, { Suspense, useEffect, useRef } from "react"
 import { shaderMaterial, useTexture } from "@react-three/drei"
-import { extend, Canvas, ReactThreeFiber } from "@react-three/fiber"
+import { extend, Canvas, ReactThreeFiber, useThree } from "@react-three/fiber"
 import { EffectComposer } from "@react-three/postprocessing"
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import * as THREE from 'three'
 import styled from "styled-components"
 import { dpr } from "../utils/Constants"
@@ -55,8 +56,7 @@ const Image: React.FC<ImageProps> = ({ src, positionX, positionY }) => {
   const texture = useTexture(src)
 
   useEffect(() => {
-    if (material.current) material.current.uTexture = texture
-    texture.encoding = THREE.sRGBEncoding
+if (material.current) material.current.uTexture = texture
   }, [texture])
 
   return <mesh position={new THREE.Vector3(positionX, positionY, 1)}>
@@ -66,6 +66,15 @@ const Image: React.FC<ImageProps> = ({ src, positionX, positionY }) => {
       uTexture={texture}
     />
   </mesh>
+}
+
+const Effects = () => {
+
+  const { scene, camera } = useThree()
+
+  return <EffectComposer>
+    <MyCustomEffect />
+  </EffectComposer>
 }
 
 const PixelRivers: React.FC<{}> = () => {
@@ -87,9 +96,7 @@ const PixelRivers: React.FC<{}> = () => {
         <Image src={image2} positionX={-3} positionY={2.25}/>
         <Image src={image3} positionX={3} positionY={-2.25}/>
         <Image src={image4} positionX={-3} positionY={-2.25}/>
-        <EffectComposer>
-          <MyCustomEffect />
-        </EffectComposer>
+        <Effects />
       </Canvas>
     </Suspense>
   </Wrapper>

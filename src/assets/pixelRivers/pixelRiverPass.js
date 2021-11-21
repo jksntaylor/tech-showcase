@@ -5,7 +5,6 @@ import { Effect } from 'postprocessing'
 const fragmentShader = `
   uniform float progress;
   uniform float time;
-  uniform sampler2D tDiffuse;
 
   void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
     vec2 p = 2.*uv - vec2(1.);
@@ -19,7 +18,7 @@ const fragmentShader = `
     newUV.x = mix(uv.x, length(p), progress);
     newUV.y = mix(uv.y, 0., progress);
 
-    vec4 color = texture2D( tDiffuse, newUV );
+    vec4 color = texture2D( inputBuffer, newUV );
     outputColor = color;
    }
 `
@@ -45,7 +44,7 @@ class MyCustomEffectImpl extends Effect {
 }
 
 // Effect component
-export const MyCustomEffect = forwardRef(({ progress, time }, ref) => {
-  const effect = useMemo(() => new MyCustomEffectImpl(progress, time), [progress, time])
+export const MyCustomEffect = forwardRef((props, ref) => {
+  const effect = useMemo(() => new MyCustomEffectImpl(props.progress, props.time), [props.progress, props.time])
   return <primitive ref={ref} object={effect} dispose={null} />
 })
