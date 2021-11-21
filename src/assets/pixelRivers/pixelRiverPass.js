@@ -1,6 +1,6 @@
-import React, { forwardRef, useMemo } from 'react'
+import { forwardRef, useMemo } from 'react'
 import { Uniform } from 'three'
-import { Effect } from 'postprocessing'
+import { BlendFunction, Effect } from 'postprocessing'
 
 const fragmentShader = `
   uniform float progress;
@@ -27,9 +27,10 @@ let _uProgress, _uTime
 
 // Effect implementation
 class MyCustomEffectImpl extends Effect {
-  constructor({ progress = 0.7, time = 0 } = {}) {
+  constructor({ progress = 0.01, time = 0 } = {}) {
     super('MyCustomEffect', fragmentShader, {
-      uniforms: new Map([['progress', new Uniform(progress)], ['time', new Uniform(time)]])
+      uniforms: new Map([['progress', new Uniform(progress)], ['time', new Uniform(time)]]),
+      blendFunction: BlendFunction.NORMAL
     })
 
     _uProgress = progress
