@@ -23,29 +23,28 @@ const fragmentShader = `
    }
 `
 
-let _uProgress, _uTime
-
-// Effect implementation
-class MyCustomEffectImpl extends Effect {
-  constructor({ progress = 0.01, time = 0 } = {}) {
-    super('MyCustomEffect', fragmentShader, {
-      uniforms: new Map([['progress', new Uniform(progress)], ['time', new Uniform(time)]]),
-      blendFunction: BlendFunction.NORMAL
-    })
-
-    _uProgress = progress
-    _uTime = time
-  }
-
-  update(renderer, inputBuffer, deltaTime) {
-    this.uniforms.get('progress').value = _uProgress
-    _uTime += deltaTime * 0.2
-    this.uniforms.get('time').value = _uTime
-  }
+type Props = {
+  progress: number
 }
 
+let _uProgress: number | undefined = 0
+// Effect implementation
+class PixelRiverPass extends Effect {
+  constructor(props: Props = { progress: 0 }) {
+    super('PixelRiverEffect', fragmentShader, {
+      uniforms: new Map([['progress', new Uniform(props.progress)], ['time', new Uniform(0)]]),
+      blendFunction: BlendFunction.NORMAL
+    })
+    _uProgress = props.progress
+  }
+
+  update(x: any, y: any, delta: number) {
+    this.uniforms.get('progress').value = _uProgress
+    this.uniforms.get('time').value += delta * 0.2
+  }
+}
 // Effect component
-export const MyCustomEffect = forwardRef((props, ref) => {
-  const effect = useMemo(() => new MyCustomEffectImpl(props.progress, props.time), [props.progress, props.time])
-  return <primitive ref={ref} object={effect} dispose={null} />
+export const PixelRiverEffect = forwardRef((props: { progress: number }, ref) => {
+  const effect = useMemo(() => new PixelRiverPass({ progress: props.progress }), [props.progress])
+  return <primitive ref={ref} props={props} object={effect} dispose={null} />
 })

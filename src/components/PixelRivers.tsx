@@ -1,9 +1,9 @@
-import React, { Suspense, useEffect, useRef } from "react"
+import React, { Suspense, useEffect, useRef, useState } from "react"
 import { shaderMaterial, useTexture } from "@react-three/drei"
-import { extend, Canvas, ReactThreeFiber, useThree } from "@react-three/fiber"
+import { extend, Canvas, ReactThreeFiber, useFrame } from "@react-three/fiber"
 import { EffectComposer } from "@react-three/postprocessing"
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import * as THREE from 'three'
+import gsap from 'gsap'
 import styled from "styled-components"
 import { dpr } from "../utils/Constants"
 
@@ -12,7 +12,8 @@ import image2 from '../assets/pixelRivers/pixelRivers2.jpg'
 import image3 from '../assets/pixelRivers/pixelRivers3.jpg'
 import image4 from '../assets/pixelRivers/pixelRivers4.jpg'
 
-import { MyCustomEffect } from "../assets/pixelRivers/pixelRiverPass"
+import { PixelRiverEffect } from "../assets/pixelRivers/pixelRiverPass"
+
 
 const PixelRiverImageMaterial = shaderMaterial({
   uTexture: new THREE.Texture()
@@ -60,7 +61,7 @@ if (material.current) material.current.uTexture = texture
   }, [texture])
 
   return <mesh position={new THREE.Vector3(positionX, positionY, 1)}>
-    <planeGeometry args={[5, 3.5, 64, 64]}/>
+    <planeGeometry args={[3.5, 5, 64, 64]}/>
     <pixelRiverImageMaterial
       ref={material}
       uTexture={texture}
@@ -68,34 +69,54 @@ if (material.current) material.current.uTexture = texture
   </mesh>
 }
 
-const Effects = () => {
+const Effects: React.FC<{}> = () => {
 
-  const { scene, camera } = useThree()
+  const progress = useRef({ value: 0.005 })
+  const [realProgress, setRealProgress] = useState(0)
+  const effectRef = useRef()
+
+  const handleUp = () => {
+    console.log('up')
+    gsap.to(progress.current, {
+      value: 0.62,
+      duration: 3,
+    })
+  }
+
+  const handleDown = () => {
+    console.log('down')
+    gsap.to(progress.current, {
+      value: 0.005,
+      duration: 3
+    })
+  }
+
+  useFrame(() => {
+    if (realProgress !== progress.current.value) setRealProgress(progress.current.value)
+  })
+
+  useEffect(() => {
+    window.addEventListener('wheel', e => {
+      e.deltaY > 0 ? handleUp() : handleDown()
+    })
+    return () => window.removeEventListener('wheel', e => {
+      e.deltaY > 0 ? handleUp() : handleDown()
+    })
+  }, [])
 
   return <EffectComposer>
-    <MyCustomEffect />
+    <PixelRiverEffect ref={effectRef} progress={realProgress} />
   </EffectComposer>
 }
 
 const PixelRivers: React.FC<{}> = () => {
-
-  // use this to trigger transition based on up/down
-  // useEffect(() => {
-  //   window.addEventListener('wheel', e => {
-  //     console.log(e.deltaY > 0 ? 'down' : 'up')
-  //   })
-  //   return () => window.removeEventListener('wheel', e => {
-  //     console.log(e.deltaY > 0 ? 'down' : 'up')
-  //   })
-  // }, [])
-
   return <Wrapper>
     <Suspense fallback={<></>}>
-      <Canvas dpr={dpr} camera={{ zoom: 0.7 }} linear={true}>
-        <Image src={image1} positionX={3} positionY={2.25}/>
-        <Image src={image2} positionX={-3} positionY={2.25}/>
-        <Image src={image3} positionX={3} positionY={-2.25}/>
-        <Image src={image4} positionX={-3} positionY={-2.25}/>
+      <Canvas dpr={dpr} camera={{ zoom: 0.5 }} linear={true}>
+        <Image src={image1} positionX={7} positionY={-3.75}/>
+        <Image src={image2} positionX={2.5} positionY={-3.75}/>
+        <Image src={image3} positionX={-2.5} positionY={-3.75}/>
+        <Image src={image4} positionX={-7} positionY={-3.75}/>
         <Effects />
       </Canvas>
     </Suspense>
