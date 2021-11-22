@@ -199,8 +199,7 @@ const FrictionTextWrapper: React.FC<{}> = () => {
     </>
   }
   return (
-    <>
-    <Wrapper ref={wrapper} background={guiObject.current.background} id="frictionTextSticky">
+    <Wrapper ref={wrapper} background={guiObject.current.background}>
       <CanvasWrapper>
         <Cover />
         <Canvas dpr={Math.min(2, window.devicePixelRatio)}>
@@ -208,9 +207,8 @@ const FrictionTextWrapper: React.FC<{}> = () => {
         </Canvas>
         <Cover />
       </CanvasWrapper>
+      <ScrollDown>Scroll!</ScrollDown>
     </Wrapper>
-    <ScrollDown data-scroll data-scroll-sticky data-scroll-target="#frictionTextSticky">Scroll!</ScrollDown>
-    </>
   )
 
 }

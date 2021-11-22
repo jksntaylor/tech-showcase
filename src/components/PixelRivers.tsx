@@ -75,21 +75,15 @@ const Effects: React.FC<{}> = () => {
   const [realProgress, setRealProgress] = useState(0)
   const effectRef = useRef()
 
-  const handleUp = () => {
-    console.log('up')
-    gsap.to(progress.current, {
-      value: 0.62,
-      duration: 3,
-    })
-  }
+  const handleUp = () => gsap.to(progress.current, {
+    value: 0.62,
+    duration: 3,
+  })
 
-  const handleDown = () => {
-    console.log('down')
-    gsap.to(progress.current, {
-      value: 0.002,
-      duration: 3
-    })
-  }
+  const handleDown = () => gsap.to(progress.current, {
+    value: 0.002,
+    duration: 3
+  })
 
   const { clock } = useThree()
 

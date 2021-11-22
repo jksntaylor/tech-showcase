@@ -2,91 +2,93 @@ import React from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 
+import thumbnails from "../assets/thumbnails/exports"
+
 const projectData = [
   {
+    name: 'Arc Carousel',
+    img: '',
+    link: '/arc-carousel'
+  },
+  {
     name: 'Circle Image Warp',
-    gif: '',
+    img: '',
     link: '/circle-image-warp'
   },
   {
     name: 'Friction Text',
-    gif: '',
+    img: thumbnails.frictionText,
     link: '/friction-text'
   },
   {
     name: 'Fixed Slider',
-    gif: '',
+    img: '',
     link: '/fixed-slider'
   },
   {
     name: 'Glitch Scroll',
-    gif: '',
+    img: '',
     link: '/glitch-scroll'
   },
   {
     name: 'Gooey Noise',
-    gif: '',
+    img: thumbnails.gooeyNoise,
     link: '/gooey-noise'
   },
   {
     name: 'Greenscreen',
-    gif: '',
+    img: thumbnails.greenScreen,
     link: '/greenscreen'
   },
   {
     name: 'Image Spotlight',
-    gif: '',
+    img: '',
     link: '/image-spotlight'
   },
   {
     name: 'Marquee Menu',
-    gif: '',
+    img: '',
     link: '/marquee-menu'
   },
   {
     name: 'Pixel Rivers',
-    gif: '',
+    img: thumbnails.pixelRivers,
     link: '/pixel-rivers'
   },
   {
-    name: 'Project Carousel',
-    gif: '',
-    link: '/project-carousel'
-  },
-  {
     name: 'Scroll Down',
-    gif: '',
+    img: '',
     link: '/scroll-down'
   },
   {
     name: 'Skew Text',
-    gif: '',
+    img: '',
     link: '/skew-text'
   },
-
 ]
 
 type Project = {
   project: {
     name: string;
-    gif: string;
+    img: string;
     link: string;
   }
 }
 
 const ProjectTeaser: React.FC<Project> = ({ project }) => {
-  return <Teaser to={project.link}>
-    <GIF src={project.gif} />
+  return <Teaser to={project.link} background={project.img}>
     <TeaserTitle>{project.name}</TeaserTitle>
   </Teaser>
 }
 
-const Teaser = styled(Link)`
+const Teaser = styled(Link)<{ background: string }>`
   width: 21%;
   height: 8vw;
+  min-height: 150px;
   margin-bottom: 2vw;
-  background: black;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0.7)), url(${props => props.background}) center/cover no-repeat;
   border-radius: 1rem;
+  position: relative;
   text-align: center;
   text-decoration: none;
   display: flex;
@@ -98,13 +100,13 @@ const Teaser = styled(Link)`
   }
 `
 
-const GIF = styled.img``
-
 const TeaserTitle = styled.h1`
   color: white;
   font: 24px Ailerons;
   letter-spacing: -0.15em;
-  margin-top: auto;
+  margin: auto 0 1rem;
+  position: relative;
+  z-index: 2;
 `
 
 const Dashboard: React.FC<{}> = () => {
@@ -112,7 +114,7 @@ const Dashboard: React.FC<{}> = () => {
   const projects = projectData.map((project, index) => <ProjectTeaser project={project} key={index} />)
 
   return <Wrapper data-scroll-section>
-    <Title>Jackson Taylor Tech Showcase</Title>
+    <Title>Jackson Taylor Tech ToolKit</Title>
     <Subtitle>A collection of code snippets to be used in projects</Subtitle>
     <Gallery>
       {projects}

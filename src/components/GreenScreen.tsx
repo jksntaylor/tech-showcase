@@ -187,6 +187,7 @@ const Wrapper = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  background: radial-gradient(#2d2d2e, #0c0c0c);
 `
 
 const CanvasWrapper = styled.div`
