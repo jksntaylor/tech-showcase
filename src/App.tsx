@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import Scroll from './utils/Scroll';
-import './App.css';
+import './styles/App.css';
 
-import Dashboard from './components/Dashboard';
+import Dashboard from './pages/Dashboard';
+import FourOhFour from './pages/404';
 
 import CircleImageWarp from './components/CircleImageWarp';
-import FrictionTextWrapper from './components/FrictionText';
+import FrictionText from './components/FrictionText';
 import FixedSlider from './components/FixedSlider';
 import GlitchScroll from './components/GlitchScroll';
 import GooeyNoise from './components/GooeyNoise';
@@ -31,7 +32,7 @@ function App() {
             <CircleImageWarp />
           </Route>
           <Route path="/friction-text">
-            <FrictionTextWrapper />
+            <FrictionText />
           </Route>
           <Route path="/fixed-slider">
             <FixedSlider />
@@ -62,6 +63,9 @@ function App() {
           </Route>
           <Route path="/skew-text">
             <SkewText />
+          </Route>
+          <Route path="/">
+            <FourOhFour />
           </Route>
         </Switch>
       </Router>

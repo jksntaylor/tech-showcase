@@ -83,4 +83,4 @@ html.has-scroll-dragging {
     right: auto;
     bottom: 0; }
 
-@import url('./styles/typography.css');
+@import url('./typography.css');
