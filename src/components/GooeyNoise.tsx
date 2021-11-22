@@ -1,6 +1,7 @@
-import React, { useRef } from "react"
+import React, { useEffect, useRef } from "react"
+import * as THREE from 'three'
 import { Canvas, extend, ReactThreeFiber, useFrame } from "@react-three/fiber"
-import { shaderMaterial } from "@react-three/drei"
+import { OrbitControls, shaderMaterial } from "@react-three/drei"
 import styled from "styled-components"
 
 const GooeyNoiseMaterial = shaderMaterial({
@@ -42,20 +43,26 @@ const Noise: React.FC<{}> = () => {
 
   const material = useRef<GooeyNoiseMaterialType>({ uTime: 0 })
 
-  useFrame((state, delta) => {
+  useEffect(() => {
+    // @ts-ignore
+    if (material.current) material.current.side = THREE.DoubleSide
+  }, [])
+
+  useFrame((s, delta) => {
     material.current.uTime += delta
   })
 
   return <mesh>
     <planeGeometry args={[5, 5, 64, 64]}/>
-    <gooeyNoiseMaterial uTime={0} ref={material}/>
+    <gooeyNoiseMaterial uTime={0} ref={material} attach="material"/>
   </mesh>
 }
 
 const GooeyNoise: React.FC<{}> = () => {
   return <Wrapper>
-    <Canvas dpr={Math.min(window.devicePixelRatio, 2)} camera={{ fov: 2 * Math.atan((5) / (2 * 5)) * (180 / Math.PI) }}>
+    <Canvas dpr={Math.min(window.devicePixelRatio, 2)}>
       <Noise />
+      <OrbitControls />
     </Canvas>
   </Wrapper>
 }
@@ -65,7 +72,6 @@ const Wrapper = styled.section`
   height: 100vh;
   width: 100vw;
   margin: auto auto;
-  padding: 5%;
 `
 
 export default GooeyNoise
