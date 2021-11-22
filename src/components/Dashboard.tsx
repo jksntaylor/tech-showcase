@@ -1,6 +1,3 @@
-import { Canvas } from "@react-three/fiber"
-import * as THREE from 'three'
-import { EffectComposer, Noise } from "@react-three/postprocessing"
 import React from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
@@ -94,6 +91,11 @@ const Teaser = styled(Link)`
   text-decoration: none;
   display: flex;
   flex-direction: column;
+  transition: all 300ms ease;
+  &:hover {
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+  }
 `
 
 const GIF = styled.img``
@@ -115,15 +117,6 @@ const Dashboard: React.FC<{}> = () => {
     <Gallery>
       {projects}
     </Gallery>
-    {/* <Canvas style={{ position: 'absolute', top: '0', left: '0', width: '100vw', height: '100vh'}}>
-      <mesh>
-        <planeGeometry args={[2, 2, 1, 1]} />
-        <meshBasicMaterial color={new THREE.Color('#1a1816')} />
-      </mesh>
-      <EffectComposer>
-        <Noise />
-      </EffectComposer>
-    </Canvas> */}
   </Wrapper>
 }
 
