@@ -21,7 +21,7 @@ import PixelRivers from './components/PixelRivers';
 function App() {
   return <>
     <Scroll />
-    <Wrapper className="smooth-scroll">
+    <Wrapper className="smooth-scroll" data-scroll-wrapper>
       <Router>
         <Switch>
           <Route path="/" exact>
@@ -69,11 +69,6 @@ function App() {
   </>
 }
 
-const Wrapper = styled.main`
-  background: #020307;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`
+const Wrapper = styled.main``
 
 export default App;
