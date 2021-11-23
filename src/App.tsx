@@ -6,11 +6,12 @@ import './styles/App.css';
 import Dashboard  from './pages/Dashboard';
 import FourOhFour from './pages/404';
 
-import ArcCarousel  from './components/ArcCarousel';
-import FrictionText from './components/FrictionText';
-import GooeyNoise   from './components/GooeyNoise';
-import GreenScreen  from './components/GreenScreen';
-import PixelRivers  from './components/PixelRivers';
+import ArcCarousel  from './demos/ArcCarousel';
+import FrictionText from './demos/FrictionText';
+import GooeyNoise   from './demos/GooeyNoise';
+import GreenScreen  from './demos/GreenScreen';
+import PixelRivers  from './demos/PixelRivers';
+import Transmission from './demos/Transmission';
 
 function App() {
   return <>
@@ -24,6 +25,7 @@ function App() {
           <Route path="/gooey-noise"   render={() => <GooeyNoise/>  }/>
           <Route path="/greenscreen"   render={() => <GreenScreen/> }/>
           <Route path="/pixel-rivers"  render={() => <PixelRivers />}/>
+          <Route path="/transmission"  render={() => <Transmission />}/>
           <Route path="/"              render={() => <FourOhFour />} />
         </Switch>
       </Router>
