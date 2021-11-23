@@ -35,12 +35,18 @@ declare global { namespace JSX { interface IntrinsicElements {
 
 extend({ ImageMaterial })
 
-const Image: React.FC<{ texture: boolean }> = ({ texture }) => {
+const Image: React.FC<{}> = () => {
   const texture1 = useTexture('https://images.unsplash.com/photo-1637419980533-1119de04312f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80')
 
   const texture2 = useTexture('https://images.unsplash.com/photo-1502691876148-a84978e59af8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80')
 
   const image = useRef()
+
+  const [texture, setTexture] = useState(true)
+
+  const handleClick = () => {
+    setTexture(!texture)
+  }
 
   useEffect(() => {
     if (image.current) {
@@ -50,7 +56,7 @@ const Image: React.FC<{ texture: boolean }> = ({ texture }) => {
       image.current.side = THREE.DoubleSide
     }
   }, [texture, texture1, texture2])
-  return <mesh position={new THREE.Vector3(0, 0, -100)}>
+  return <mesh position={new THREE.Vector3(0, 0, -100)} onClick={handleClick}>
   <planeGeometry args={[500, 500, 100, 100]}/>
   <imageMaterial ref={image}/>
 </mesh>
@@ -58,17 +64,13 @@ const Image: React.FC<{ texture: boolean }> = ({ texture }) => {
 
 const Transmission: React.FC<{}> = () => {
 
-  const [texture, setTexture] = useState(true)
 
-  const handleClick = () => {
-    setTexture(!texture)
-  }
   return <Wrapper data-scroll-section>
     <Suspense fallback={<></>}>
     <Canvas>
       <ambientLight intensity={0.5} />
-      <Image texture={texture}/>
-      <Model onClick={handleClick}/>
+      <Image />
+      <Model />
       <OrbitControls />
     </Canvas>
     </Suspense>
