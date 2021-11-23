@@ -60,7 +60,7 @@ const Transmission: React.FC<{}> = () => {
 
   return <Wrapper data-scroll-section>
     <Suspense fallback={<></>}>
-    <Canvas>
+    <Canvas >
       <ambientLight intensity={0.5} />
       <Image />
       <Model />
