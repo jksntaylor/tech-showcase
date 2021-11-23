@@ -30,6 +30,11 @@ const projectData = [
     img: thumbnails.pixelRivers,
     link: '/pixel-rivers'
   },
+  {
+    name: 'Transmission',
+    img: thumbnails.transmission,
+    link: '/transmission'
+  }
 ]
 
 type Project = {
@@ -47,7 +52,6 @@ const ProjectTeaser: React.FC<Project> = ({ project }) => {
 }
 
 const Teaser = styled(Link)<{ background: string }>`
-  width: 21%;
   height: 8vw;
   min-height: 150px;
   margin-bottom: 2vw;
@@ -118,9 +122,9 @@ const Subtitle = styled.h2`
 `
 
 const Gallery = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 21%);
+  column-gap: 5.3%;
   max-width: 1200px;
   margin: 0 auto;
 `

@@ -12,7 +12,7 @@ export default function Model({ ...props }) {
 
   const transmissionMaterial = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
-    roughness: 0,
+    roughness: 0.6,
     transmission: 1,
     thickness: 100,
     transparent: true
