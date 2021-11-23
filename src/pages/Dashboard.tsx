@@ -11,24 +11,9 @@ const projectData = [
     link: '/arc-carousel'
   },
   {
-    name: 'Circle Image Warp',
-    img: '',
-    link: '/circle-image-warp'
-  },
-  {
     name: 'Friction Text',
     img: thumbnails.frictionText,
     link: '/friction-text'
-  },
-  {
-    name: 'Fixed Slider',
-    img: '',
-    link: '/fixed-slider'
-  },
-  {
-    name: 'Glitch Scroll',
-    img: '',
-    link: '/glitch-scroll'
   },
   {
     name: 'Gooey Noise',
@@ -41,29 +26,9 @@ const projectData = [
     link: '/greenscreen'
   },
   {
-    name: 'Image Spotlight',
-    img: '',
-    link: '/image-spotlight'
-  },
-  {
-    name: 'Marquee Menu',
-    img: '',
-    link: '/marquee-menu'
-  },
-  {
     name: 'Pixel Rivers',
     img: thumbnails.pixelRivers,
     link: '/pixel-rivers'
-  },
-  {
-    name: 'Scroll Down',
-    img: '',
-    link: '/scroll-down'
-  },
-  {
-    name: 'Skew Text',
-    img: '',
-    link: '/skew-text'
   },
 ]
 

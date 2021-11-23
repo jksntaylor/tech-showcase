@@ -3,21 +3,14 @@ import styled from 'styled-components'
 import Scroll from './utils/Scroll';
 import './styles/App.css';
 
-import Dashboard from './pages/Dashboard';
+import Dashboard  from './pages/Dashboard';
 import FourOhFour from './pages/404';
 
-import CircleImageWarp from './components/CircleImageWarp';
+import ArcCarousel  from './components/ArcCarousel';
 import FrictionText from './components/FrictionText';
-import FixedSlider from './components/FixedSlider';
-import GlitchScroll from './components/GlitchScroll';
-import GooeyNoise from './components/GooeyNoise';
-import GreenScreen from './components/GreenScreen';
-import ImageSpotlight from './components/ImageSpotlight';
-import MarqueeHoverMenu from './components/MarqueeHoverMenu';
-import ProjectCarousel from './components/ScrollCarousel';
-import ScrollDown from './components/ScrollDown';
-import SkewText from './components/SkewText';
-import PixelRivers from './components/PixelRivers';
+import GooeyNoise   from './components/GooeyNoise';
+import GreenScreen  from './components/GreenScreen';
+import PixelRivers  from './components/PixelRivers';
 
 function App() {
   return <>
@@ -25,48 +18,13 @@ function App() {
     <Wrapper className="smooth-scroll" data-scroll-wrapper>
       <Router>
         <Switch>
-          <Route path="/" exact>
-            <Dashboard />
-          </Route>
-          <Route path="/circle-image-warp">
-            <CircleImageWarp />
-          </Route>
-          <Route path="/friction-text">
-            <FrictionText />
-          </Route>
-          <Route path="/fixed-slider">
-            <FixedSlider />
-          </Route>
-          <Route path="/glitch-scroll">
-            <GlitchScroll />
-          </Route>
-          <Route path="/gooey-noise">
-            <GooeyNoise />
-          </Route>
-          <Route path="/greenscreen">
-            <GreenScreen />
-          </Route>
-          <Route path="/image-spotlight">
-            <ImageSpotlight />
-          </Route>
-          <Route path="/marquee-menu">
-            <MarqueeHoverMenu />
-          </Route>
-          <Route path="/pixel-rivers">
-            <PixelRivers />
-          </Route>
-          <Route path="/scroll-carousel">
-            <ProjectCarousel />
-          </Route>
-          <Route path="/scroll-down">
-            <ScrollDown />
-          </Route>
-          <Route path="/skew-text">
-            <SkewText />
-          </Route>
-          <Route path="/">
-            <FourOhFour />
-          </Route>
+          <Route path="/" exact        render={() => <Dashboard />} />
+          <Route path="/arc-carousel"  render={() => <ArcCarousel/> }/>
+          <Route path="/friction-text" render={() => <FrictionText/>}/>
+          <Route path="/gooey-noise"   render={() => <GooeyNoise/>  }/>
+          <Route path="/greenscreen"   render={() => <GreenScreen/> }/>
+          <Route path="/pixel-rivers"  render={() => <PixelRivers />}/>
+          <Route path="/"              render={() => <FourOhFour />} />
         </Switch>
       </Router>
     </Wrapper>
