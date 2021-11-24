@@ -11,8 +11,8 @@ export default function Model({ ...props }) {
   const { nodes } = useGLTF('/reformLogo.gltf')
 
   const transmissionMaterial = new THREE.MeshPhysicalMaterial({
-    color: 0xffffff,
-    roughness: 0.55,
+    color: 0xfff,
+    roughness: 0,
     transmission: 1,
     thickness: 50,
     transparent: true
