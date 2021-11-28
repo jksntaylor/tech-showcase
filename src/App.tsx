@@ -35,6 +35,10 @@ function App() {
   </>
 }
 
-const Wrapper = styled.main``
+const Wrapper = styled.main`
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+`
 
 export default App;
