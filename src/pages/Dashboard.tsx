@@ -5,11 +5,11 @@ import styled from "styled-components"
 import thumbnails from "../assets/thumbnails/exports"
 
 const projectData = [
-  {
-    name: 'Arc Carousel',
-    img: '',
-    link: '/arc-carousel'
-  },
+  // {
+  //   name: 'Arc Carousel',
+  //   img: '',
+  //   link: '/arc-carousel'
+  // },
   {
     name: 'Friction Text',
     img: thumbnails.frictionText,
@@ -29,6 +29,11 @@ const projectData = [
     name: 'Pixel Rivers',
     img: thumbnails.pixelRivers,
     link: '/pixel-rivers'
+  },
+  {
+    name: 'Ripples',
+    img: '',
+    link: '/ripples'
   },
   {
     name: 'Transmission',

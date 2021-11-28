@@ -12,6 +12,7 @@ import GooeyNoise   from './demos/GooeyNoise';
 import GreenScreen  from './demos/GreenScreen';
 import PixelRivers  from './demos/PixelRivers';
 import Transmission from './demos/Transmission';
+import Ripples from './demos/Ripples';
 
 function App() {
   return <>
@@ -19,14 +20,15 @@ function App() {
     <Wrapper className="smooth-scroll" data-scroll-wrapper>
       <Router>
         <Switch>
-          <Route path="/" exact        render={() => <Dashboard />} />
-          <Route path="/arc-carousel"  render={() => <ArcCarousel/> }/>
-          <Route path="/friction-text" render={() => <FrictionText/>}/>
-          <Route path="/gooey-noise"   render={() => <GooeyNoise/>  }/>
-          <Route path="/greenscreen"   render={() => <GreenScreen/> }/>
-          <Route path="/pixel-rivers"  render={() => <PixelRivers />}/>
-          <Route path="/transmission"  render={() => <Transmission />}/>
-          <Route path="/"              render={() => <FourOhFour />} />
+          <Route path="/" exact        render={() => <Dashboard />   } />
+          <Route path="/arc-carousel"  render={() => <ArcCarousel/>  } />
+          <Route path="/friction-text" render={() => <FrictionText/> } />
+          <Route path="/gooey-noise"   render={() => <GooeyNoise/>   } />
+          <Route path="/greenscreen"   render={() => <GreenScreen/>  } />
+          <Route path="/pixel-rivers"  render={() => <PixelRivers /> } />
+          <Route path="/ripples"       render={() => <Ripples />     } />
+          <Route path="/transmission"  render={() => <Transmission/> } />
+          <Route path="/"              render={() => <FourOhFour />  } />
         </Switch>
       </Router>
     </Wrapper>
