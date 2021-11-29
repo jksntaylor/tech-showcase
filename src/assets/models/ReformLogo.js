@@ -16,16 +16,16 @@ export default function Model({ ...props }) {
     color: 0x53E3FF,
     clearcoat: 0.5,
     clearcoatRoughness: 0.25,
-    envMapIntensity: 5,
-    ior: 1,
-    roughness: 1,
+    envMapIntensity: 1,
+    // ior: 1,
+    roughness: 0.3,
     transmission: 1,
-    thickness: 5,
+    thickness: 50,
     transparent: true
   })
 
   useFrame(() => {
-    group.current.rotation.y += 0.005
+    // group.current.rotation.y += 0.005
   })
 
   return (
