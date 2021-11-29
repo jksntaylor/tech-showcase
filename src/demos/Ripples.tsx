@@ -115,7 +115,7 @@ const Ripples: React.FC<{}> = () => {
     let children = meshesRef.current.children
 
     // CREATE RIPPLE (takes oldest one and resets it)
-    if (Math.abs(delta) > 4) {
+    if (Math.abs(delta) > 2) {
       let nextMesh = children[currentMesh.current]
       nextMesh.position.x = currMouse.current.x
       nextMesh.position.y = currMouse.current.y

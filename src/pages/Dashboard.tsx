@@ -32,7 +32,7 @@ const projectData = [
   },
   {
     name: 'Ripples',
-    img: '',
+    img: thumbnails.ripples,
     link: '/ripples'
   },
   {

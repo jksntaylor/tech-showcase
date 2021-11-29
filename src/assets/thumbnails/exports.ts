@@ -2,6 +2,7 @@ import ft from './frictionText.png'
 import gn from './gooeyNoise.png'
 import gs from './greenscreen.png'
 import pr from './pixelRivers.png'
+import rp from './ripples.png'
 import tm from './transmission.png'
 
 const thumbnails = {
@@ -9,6 +10,7 @@ const thumbnails = {
   gooeyNoise: gn,
   greenScreen: gs,
   pixelRivers: pr,
+  ripples: rp,
   transmission: tm
 }
 
