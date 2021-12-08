@@ -13,19 +13,11 @@ export default function Model({ ...props }) {
   const { nodes } = useGLTF('/reformLogo.gltf')
 
   const transmissionMaterial = new THREE.MeshPhysicalMaterial({
-    color: 0x53E3FF,
-    clearcoat: 0.5,
-    clearcoatRoughness: 0.25,
-    envMapIntensity: 1,
-    // ior: 1,
-    roughness: 0.3,
+    color: 0xFFFFFF,
+    roughness: 0.6,
     transmission: 1,
     thickness: 50,
     transparent: true
-  })
-
-  useFrame(() => {
-    // group.current.rotation.y += 0.005
   })
 
   return (

@@ -13,6 +13,7 @@ import GreenScreen  from './demos/GreenScreen';
 import PixelRivers  from './demos/PixelRivers';
 import Transmission from './demos/Transmission';
 import Ripples from './demos/Ripples';
+import Billboard from './demos/Billboard';
 
 function App() {
   return <>
@@ -22,6 +23,7 @@ function App() {
         <Switch>
           <Route path="/" exact        render={() => <Dashboard />   } />
           <Route path="/arc-carousel"  render={() => <ArcCarousel/>  } />
+          <Route path="/billboard"     render={() => <Billboard />   } />
           <Route path="/friction-text" render={() => <FrictionText/> } />
           <Route path="/gooey-noise"   render={() => <GooeyNoise/>   } />
           <Route path="/greenscreen"   render={() => <GreenScreen/>  } />
@@ -37,8 +39,8 @@ function App() {
 
 const Wrapper = styled.main`
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  /* overflow: hidden; */
 `
 
 export default App;

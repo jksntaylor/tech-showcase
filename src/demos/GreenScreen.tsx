@@ -1,4 +1,4 @@
-import { shaderMaterial, useTexture } from "@react-three/drei"
+import { OrbitControls, shaderMaterial, useTexture } from "@react-three/drei"
 import { extend, Canvas, ReactThreeFiber, useFrame } from "@react-three/fiber"
 import * as THREE from 'three'
 import React, { Suspense, useEffect, useRef } from "react"
@@ -131,7 +131,11 @@ const GreenScreen: React.FC<{}> = () => {
 
 
     useEffect(() => {
-      if (material.current) material.current.uMap = texture
+      if (material.current) {
+        material.current.uMap = texture
+        // @ts-ignore
+        material.current.side = THREE.DoubleSide
+      }
     }, [texture])
 
 
@@ -174,6 +178,7 @@ const GreenScreen: React.FC<{}> = () => {
       <CanvasWrapper ref={canvas}>
       <Canvas dpr={dpr} camera={{ fov: 2 * Math.atan((6.22) / (2 * 5)) * (180 / Math.PI) }}>
         <Image />
+        <OrbitControls />
       </Canvas>
       </CanvasWrapper>
     </Suspense>
