@@ -14,6 +14,7 @@ import PixelRivers  from './demos/PixelRivers';
 import Transmission from './demos/Transmission';
 import Ripples from './demos/Ripples';
 import Billboard from './demos/Billboard';
+import HexGallery from './demos/HexGallery';
 
 function App() {
   return <>
@@ -27,6 +28,7 @@ function App() {
           <Route path="/friction-text" render={() => <FrictionText/> } />
           <Route path="/gooey-noise"   render={() => <GooeyNoise/>   } />
           <Route path="/greenscreen"   render={() => <GreenScreen/>  } />
+          <Route path="/hex-gallery"   render={() => <HexGallery />  } />
           <Route path="/pixel-rivers"  render={() => <PixelRivers /> } />
           <Route path="/ripples"       render={() => <Ripples />     } />
           <Route path="/transmission"  render={() => <Transmission/> } />
