@@ -27,7 +27,7 @@ const projectData = [
   },
   {
     name: 'Hex Gallery',
-    img: thumbnails.transmission,
+    img: thumbnails.hexGallery,
     link: '/hex-gallery'
   },
   {
