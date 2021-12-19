@@ -26,6 +26,11 @@ const projectData = [
     link: '/greenscreen'
   },
   {
+    name: 'Hex Gallery',
+    img: thumbnails.transmission,
+    link: '/hex-gallery'
+  },
+  {
     name: 'Pixel Rivers',
     img: thumbnails.pixelRivers,
     link: '/pixel-rivers'

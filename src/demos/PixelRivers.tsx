@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useRef, useState } from "react"
 import { shaderMaterial, useTexture } from "@react-three/drei"
 import { extend, Canvas, ReactThreeFiber, useFrame, useThree } from "@react-three/fiber"
-import { EffectComposer } from "@react-three/postprocessing"
+import { EffectComposer, Noise } from "@react-three/postprocessing"
 import * as THREE from 'three'
 import gsap from 'gsap'
 import styled from "styled-components"
@@ -32,8 +32,7 @@ const PixelRiverImageMaterial = shaderMaterial({
   void main() {
     gl_FragColor = texture2D(uTexture, vUv);
   }
-`
-)
+`)
 
 type PixelRiverImageMaterialType = {
   uTexture: THREE.Texture
@@ -90,7 +89,7 @@ const Effects: React.FC<{}> = () => {
   useFrame(() => {
     if (realProgress !== progress.current.value) setRealProgress(progress.current.value)
     // @ts-ignore
-    effectRef.current.uniforms.get('time').value = clock.getElapsedTime() * 0.2
+    effectRef.current.uniforms.get('time').value = clock.getElapsedTime() * 0.5
   })
 
   useEffect(() => {
@@ -103,7 +102,12 @@ const Effects: React.FC<{}> = () => {
   }, [])
 
   return <EffectComposer>
+    {/* <Bloom /> */}
     <PixelRiverEffect ref={effectRef} progress={realProgress} time={0}/>
+    <Noise
+      premultiply
+      // blendFunction={BlendFunction.NORMAL}
+    />
   </EffectComposer>
 }
 
@@ -124,7 +128,7 @@ const PixelRivers: React.FC<{}> = () => {
 const Wrapper = styled.section`
   width: 100vw;
   height: 100vh;
-  background: #212226;
+  background: black;
 `
 
 export default PixelRivers
