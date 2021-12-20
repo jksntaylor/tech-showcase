@@ -115,8 +115,8 @@ const Grid: React.FC<{}> = () => {
     totalCompanies: 127,
     imageHeight: 5,
     imageWidth: 3,
-    horizontalGap: 2,
-    verticalGap: 1.5,
+    horizontalGap: 1,
+    verticalGap: 1,
   }
 
   const generateGrid = ( totalCompanies: number ) => {

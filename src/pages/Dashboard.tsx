@@ -11,6 +11,11 @@ const projectData = [
   //   link: '/arc-carousel'
   // },
   {
+    name: 'Billboard Material',
+    img: thumbnails.billboard,
+    link: '/billboard'
+  },
+  {
     name: 'Friction Text',
     img: thumbnails.frictionText,
     link: '/friction-text'
