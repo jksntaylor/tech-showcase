@@ -4,12 +4,13 @@ import { shaderMaterial, useTexture } from "@react-three/drei"
 import { Texture, PlaneGeometry, Vector2 } from 'three'
 import { lerp } from "three/src/math/MathUtils"
 import styled from "styled-components"
+import gsap from 'gsap'
 
 
 const HexPixelMaterial = shaderMaterial({
   map: new Texture(),
   velocity: new Vector2(0, 0),
-  color: 0
+  color: 1
 },
 `
   #define PI 3.14159
@@ -18,8 +19,9 @@ const HexPixelMaterial = shaderMaterial({
 
   void main() {
     vec3 pos = position;
-    pos.x -= abs(sin(uv.y * PI) * 0.125) * velocity.x;
-    pos.y -= abs(sin(uv.x * PI) * 0.125) * velocity.y;
+    // pos.x -= abs(sin(uv.y * PI)) * velocity.x * 0.1;
+    pos.x -= floor((0.5 - abs(uv.y - 0.5)) * 20.0) / 20.0 * velocity.x * 0.6;
+    // pos.y -= floor((0.5 - abs(uv.x - 0.5)) * 20.0) / 20.0 * velocity.y * 0.6;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos,1.0);
     vUv = uv;
   }
@@ -34,8 +36,11 @@ const HexPixelMaterial = shaderMaterial({
     vec4 blackAndWhite = vec4(vec3(lum), 1.0);
     vec4 colored = texture2D(map, vUv);
     gl_FragColor = mix(blackAndWhite, colored, color);
+    // gl_FragColor = vec4(vUv.x, 0., vUv.y, 1.);
   }
 `)
+
+//  i need to shift the uv.y down 0.5 and then do 0.5 - result to get inverse. then i need to step that to the closest 0.02 and the shift based on the new position
 
 type HexPixelType = {
   map: Texture
@@ -76,14 +81,14 @@ const GridImage: React.FC<GridImageProps> = ({ image, geometry, positionX, posit
   })
 
   const saturate = () => {
-    if (material.current) material.current.color = 1
+    if (material.current) gsap.to(material.current, { color: 1 })
   }
 
   const desaturate = () => {
-    if (material.current) material.current.color = 0
+    if (material.current) gsap.to(material.current, { color: 0 })
   }
 
-  return <mesh geometry={geometry} position={[positionX, positionY, 0]} onPointerEnter={saturate} onPointerLeave={desaturate}>
+  return <mesh geometry={geometry} position={[positionX, positionY, 0]} onPointerEnter={desaturate} onPointerLeave={saturate}>
     <hexPixelMaterial ref={material} />
   </mesh>
 }
@@ -96,8 +101,8 @@ const Grid: React.FC<{}> = () => {
     totalCompanies: 91,
     imageHeight: 5,
     imageWidth: 3,
-    horizontalGap: 1.5,
-    verticalGap: 1,
+    horizontalGap: 2.5,
+    verticalGap: 2,
   }
 
   const generateGrid = ( totalCompanies: number ) => {
@@ -175,7 +180,7 @@ const Grid: React.FC<{}> = () => {
       y += (verticalSpacing / 2)
     }
 
-    let verticalBound = (tiers - 1.75) * verticalSpacing + (debugObj.imageHeight * 0.5)
+    let verticalBound = (tiers - 1.5) * verticalSpacing + (debugObj.imageHeight * 0.5)
     let horizontalBound = (tiers - 2.2) * horizontalSpacing + (debugObj.imageWidth * 0.5)
 
     let returnVals = {
@@ -201,12 +206,6 @@ const Grid: React.FC<{}> = () => {
     let newX = (e.clientX / window.innerWidth - 0.5) * 2
     let newY = (e.clientY / window.innerHeight - 0.5) * 2
 
-    // let velocityX = (newX - mouseObj.x)
-    // let velocityY = (newY - mouseObj.y)
-
-    // let newMouseObj = new Vector2(newX, newY)
-
-    // setMouseObj(newMouseObj)
     targetPosition.current.x = newX
     targetPosition.current.y = newY
   }
@@ -235,19 +234,19 @@ const Grid: React.FC<{}> = () => {
 
     setVelocity(new Vector2(diffX, diffY))
 
-    let zoom = Math.abs(Math.max(diffX, diffY)) + 5
-    camera.position.setZ(zoom)
+    let positionZ = Math.max(Math.abs(diffX), Math.abs(diffY)) / 2 + 5
+    camera.position.setZ(positionZ)
   })
   // END lerp logic
 
-  let meshGeometry = new PlaneGeometry(debugObj.imageWidth, debugObj.imageHeight, 2, 2)
+  let meshGeometry = new PlaneGeometry(debugObj.imageWidth, debugObj.imageHeight, 200, 200)
   let meshes = grid.map((cell, index) => <GridImage
     key={index}
     geometry={meshGeometry}
     velocity={velocity}
     positionX={cell.x}
     positionY={cell.y}
-    image="https://images.unsplash.com/photo-1639927072187-3cbf34d12f27?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80" // will be cell.img
+    image="https://images.unsplash.com/photo-1639403277293-14a53e4e11ab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80" // will be cell.img
     // add company data here later
   />)
 
