@@ -20,8 +20,8 @@ const HexPixelMaterial = shaderMaterial({
   void main() {
     vec3 pos = position;
     // pos.x -= abs(sin(uv.y * PI)) * velocity.x * 0.1;
-    pos.x -= floor((0.5 - abs(uv.y - 0.5)) * 20.0) / 20.0 * velocity.x * 0.6;
-    // pos.y -= floor((0.5 - abs(uv.x - 0.5)) * 20.0) / 20.0 * velocity.y * 0.6;
+    pos.x -= floor((0.5 - abs(uv.y - 0.5)) * 30.0) / 30.0 * velocity.x * 0.6;
+    pos.y -= floor((0.5 - abs(uv.x - 0.5)) * 20.0) / 20.0 * velocity.y * 0.6;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos,1.0);
     vUv = uv;
   }
@@ -101,8 +101,8 @@ const Grid: React.FC<{}> = () => {
     totalCompanies: 91,
     imageHeight: 5,
     imageWidth: 3,
-    horizontalGap: 2.5,
-    verticalGap: 2,
+    horizontalGap: 1.5,
+    verticalGap: 1,
   }
 
   const generateGrid = ( totalCompanies: number ) => {
