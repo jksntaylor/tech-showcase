@@ -1,6 +1,8 @@
 import React, { MutableRefObject, Suspense, useEffect, useRef, useState } from "react"
 import { Canvas, extend, ReactThreeFiber, useFrame, useThree } from "@react-three/fiber"
 import { shaderMaterial, useTexture } from "@react-three/drei"
+import { Bloom, EffectComposer, Noise } from "@react-three/postprocessing"
+import { BlendFunction } from "postprocessing"
 import { Texture, PlaneGeometry, Vector2 } from 'three'
 import { lerp } from "three/src/math/MathUtils"
 import styled from "styled-components"
@@ -10,7 +12,7 @@ import gsap from 'gsap'
 const HexPixelMaterial = shaderMaterial({
   map: new Texture(),
   velocity: new Vector2(0, 0),
-  color: 1
+  color: 0
 },
 `
   #define PI 3.14159
@@ -19,7 +21,8 @@ const HexPixelMaterial = shaderMaterial({
 
   void main() {
     vec3 pos = position;
-    pos.x -= abs(sin(uv.y * PI) * 0.125) * velocity.x;
+    pos.x -= abs(sin(uv.y * PI) * 0.075) * velocity.x;
+    pos.y -= abs(sin(uv.x * PI) * 0.075) * velocity.y;
     // pos.y -= floor((0.5 - abs(uv.x - 0.5)) * 30.0) / 30.0 * velocity.y * 0.6;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos,1.0);
     vUv = uv;
@@ -84,22 +87,21 @@ const GridImage: React.FC<GridImageProps> = ({ image, geometry, positionX, posit
       material.current.velocity.x = velocity.x
       material.current.velocity.y = velocity.y
     }
-    if (mesh.current) {
-      let relativeScaleX = (boundX - Math.abs(mesh.current.position.x + mesh.current.parent.position.x)) / boundX
-      let relativeScaleY = (boundY - Math.abs(mesh.current.position.y + mesh.current.parent.position.y)) / boundY
+    // if (mesh.current) {
+    //   let relativeScaleX = (boundX - Math.abs(mesh.current.position.x + mesh.current.parent.position.x)) / boundX
+    //   let relativeScaleY = (boundY - Math.abs(mesh.current.position.y + mesh.current.parent.position.y)) / boundY
 
-      let newScale = Math.min(relativeScaleX, relativeScaleY)
-      mesh.current.scale.set(newScale, newScale, 1)
-
-    }
+    //   let newScale = Math.max(Math.min(relativeScaleX, relativeScaleY), 0.65)
+    //   mesh.current.scale.set(newScale, newScale, 1)
+    // }
   })
 
   const saturate = () => {
-    if (material.current) gsap.to(material.current, { color: 1 })
+    if (material.current) gsap.to(material.current, { color: 0 })
   }
 
   const desaturate = () => {
-    if (material.current) gsap.to(material.current, { color: 0 })
+    if (material.current) gsap.to(material.current, { color: 1 })
   }
 
   return <mesh ref={mesh} geometry={geometry} position={[positionX, positionY, 0]} onPointerEnter={desaturate} onPointerLeave={saturate}>
@@ -231,7 +233,12 @@ const Grid: React.FC<{}> = () => {
   // END mouse logic
 
   // START lerp logic
-  const { camera } = useThree()
+  const { gl, camera } = useThree()
+
+  useEffect(() => {
+    gl.setClearColor('#161515')
+    // @ts-ignore
+  }, [])
   useFrame(() => {
     // console.log('GROUP', groupRef)
 
@@ -278,6 +285,14 @@ const HexGallery: React.FC<{}> = () => {
     <Suspense fallback={<></>}>
       <Canvas dpr={Math.min(window.devicePixelRatio, 2)} camera={{ zoom: 0.75 }}>
         <Grid />
+        <EffectComposer>
+          <Noise
+            premultiply
+            blendFunction={BlendFunction.MULTIPLY}
+            opacity={0.85}
+          />
+          <Bloom />
+        </EffectComposer>
       </Canvas>
     </Suspense>
   </Wrapper>
