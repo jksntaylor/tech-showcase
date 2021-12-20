@@ -19,9 +19,8 @@ const HexPixelMaterial = shaderMaterial({
 
   void main() {
     vec3 pos = position;
-    // pos.x -= abs(sin(uv.y * PI)) * velocity.x * 0.1;
-    pos.x -= floor((0.5 - abs(uv.y - 0.5)) * 30.0) / 30.0 * velocity.x * 0.6;
-    pos.y -= floor((0.5 - abs(uv.x - 0.5)) * 20.0) / 20.0 * velocity.y * 0.6;
+    pos.x -= abs(sin(uv.y * PI) * 0.125) * velocity.x;
+    // pos.y -= floor((0.5 - abs(uv.x - 0.5)) * 30.0) / 30.0 * velocity.y * 0.6;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos,1.0);
     vUv = uv;
   }
@@ -60,11 +59,14 @@ type GridImageProps = {
   geometry: PlaneGeometry
   positionX: number
   positionY: number
+  boundX: number
+  boundY: number
   velocity: Vector2
 }
 
-const GridImage: React.FC<GridImageProps> = ({ image, geometry, positionX, positionY, velocity }) => {
+const GridImage: React.FC<GridImageProps> = ({ image, geometry, positionX, positionY, boundX, boundY, velocity }) => {
 
+  const mesh = useRef<any>(null)
   const material = useRef<HexPixelType>(null)
 
   const imageTexture = useTexture(image)
@@ -73,10 +75,22 @@ const GridImage: React.FC<GridImageProps> = ({ image, geometry, positionX, posit
     if (material.current) material.current.map = imageTexture
   }, [imageTexture])
 
+  useEffect(() => {
+    // console.log(mesh.current)
+  })
+
   useFrame(() => {
     if (material.current) {
       material.current.velocity.x = velocity.x
       material.current.velocity.y = velocity.y
+    }
+    if (mesh.current) {
+      let relativeScaleX = (boundX - Math.abs(mesh.current.position.x + mesh.current.parent.position.x)) / boundX
+      let relativeScaleY = (boundY - Math.abs(mesh.current.position.y + mesh.current.parent.position.y)) / boundY
+
+      let newScale = Math.min(relativeScaleX, relativeScaleY)
+      mesh.current.scale.set(newScale, newScale, 1)
+
     }
   })
 
@@ -88,7 +102,7 @@ const GridImage: React.FC<GridImageProps> = ({ image, geometry, positionX, posit
     if (material.current) gsap.to(material.current, { color: 0 })
   }
 
-  return <mesh geometry={geometry} position={[positionX, positionY, 0]} onPointerEnter={desaturate} onPointerLeave={saturate}>
+  return <mesh ref={mesh} geometry={geometry} position={[positionX, positionY, 0]} onPointerEnter={desaturate} onPointerLeave={saturate}>
     <hexPixelMaterial ref={material} />
   </mesh>
 }
@@ -98,11 +112,11 @@ const GridImage: React.FC<GridImageProps> = ({ image, geometry, positionX, posit
 const Grid: React.FC<{}> = () => {
 
   let debugObj = {
-    totalCompanies: 91,
+    totalCompanies: 127,
     imageHeight: 5,
     imageWidth: 3,
-    horizontalGap: 1.5,
-    verticalGap: 1,
+    horizontalGap: 2,
+    verticalGap: 1.5,
   }
 
   const generateGrid = ( totalCompanies: number ) => {
@@ -219,6 +233,7 @@ const Grid: React.FC<{}> = () => {
   // START lerp logic
   const { camera } = useThree()
   useFrame(() => {
+    // console.log('GROUP', groupRef)
 
     let targetX = targetPosition.current.x * -horizontalBound
     let targetY = targetPosition.current.y * verticalBound
@@ -239,13 +254,15 @@ const Grid: React.FC<{}> = () => {
   })
   // END lerp logic
 
-  let meshGeometry = new PlaneGeometry(debugObj.imageWidth, debugObj.imageHeight, 200, 200)
+  let meshGeometry = new PlaneGeometry(debugObj.imageWidth, debugObj.imageHeight, 80, 80)
   let meshes = grid.map((cell, index) => <GridImage
     key={index}
     geometry={meshGeometry}
     velocity={velocity}
     positionX={cell.x}
     positionY={cell.y}
+    boundX={horizontalBound}
+    boundY={verticalBound}
     image="https://images.unsplash.com/photo-1639403277293-14a53e4e11ab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80" // will be cell.img
     // add company data here later
   />)
@@ -259,7 +276,7 @@ const Grid: React.FC<{}> = () => {
 const HexGallery: React.FC<{}> = () => {
   return <Wrapper >
     <Suspense fallback={<></>}>
-      <Canvas dpr={Math.min(window.devicePixelRatio, 2)}>
+      <Canvas dpr={Math.min(window.devicePixelRatio, 2)} camera={{ zoom: 0.75 }}>
         <Grid />
       </Canvas>
     </Suspense>
@@ -270,7 +287,7 @@ const Wrapper = styled.section`
   canvas {
     min-height: 100vh;
     width: 100vw;
-    background: black;
+    background: radial-gradient(#0c0428, #030111);
   }
 `
 
