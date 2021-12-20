@@ -236,8 +236,8 @@ const Grid: React.FC<{}> = () => {
   const { gl, camera } = useThree()
 
   useEffect(() => {
-    gl.setClearColor('#161515')
-    // @ts-ignore
+    gl.setClearColor('#1c1a20')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useFrame(() => {
     // console.log('GROUP', groupRef)
