@@ -42,8 +42,6 @@ const HexPixelMaterial = shaderMaterial({
   }
 `)
 
-//  i need to shift the uv.y down 0.5 and then do 0.5 - result to get inverse. then i need to step that to the closest 0.02 and the shift based on the new position
-
 type HexPixelType = {
   map: Texture
   velocity: Vector2
@@ -78,10 +76,6 @@ const GridImage: React.FC<GridImageProps> = ({ image, geometry, positionX, posit
     if (material.current) material.current.map = imageTexture
   }, [imageTexture])
 
-  useEffect(() => {
-    // console.log(mesh.current)
-  })
-
   useFrame(() => {
     if (material.current) {
       material.current.velocity.x = velocity.x
@@ -91,7 +85,7 @@ const GridImage: React.FC<GridImageProps> = ({ image, geometry, positionX, posit
     //   let relativeScaleX = (boundX - Math.abs(mesh.current.position.x + mesh.current.parent.position.x)) / boundX
     //   let relativeScaleY = (boundY - Math.abs(mesh.current.position.y + mesh.current.parent.position.y)) / boundY
 
-    //   let newScale = Math.max(Math.min(relativeScaleX, relativeScaleY), 0.65)
+    //   let newScale = Math.max(Math.min(relativeScaleX, relativeScaleY), 0.75)
     //   mesh.current.scale.set(newScale, newScale, 1)
     // }
   })
@@ -217,6 +211,8 @@ const Grid: React.FC<{}> = () => {
 
   const [velocity, setVelocity] = useState(new Vector2(0, 0))
 
+  const zoomFactor = useRef(0)
+
   // START mouse logic
   const handleMouseMove = (e: MouseEvent) => {
     let newX = (e.clientX / window.innerWidth - 0.5) * 2
@@ -235,13 +231,9 @@ const Grid: React.FC<{}> = () => {
   // START lerp logic
   const { gl, camera } = useThree()
 
-  useEffect(() => {
-    gl.setClearColor('#1c1a20')
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  useFrame(() => {
-    // console.log('GROUP', groupRef)
+  useEffect(() => gl.setClearColor('#0e0d10'), [gl])
 
+  useFrame(() => {
     let targetX = targetPosition.current.x * -horizontalBound
     let targetY = targetPosition.current.y * verticalBound
 
@@ -256,8 +248,8 @@ const Grid: React.FC<{}> = () => {
 
     setVelocity(new Vector2(diffX, diffY))
 
-    let positionZ = Math.max(Math.abs(diffX), Math.abs(diffY)) / 2 + 5
-    camera.position.setZ(positionZ)
+    zoomFactor.current = Math.max(Math.abs(velocity.x), Math.abs(velocity.y)) / 2 + 5
+    camera.position.setZ(zoomFactor.current)
   })
   // END lerp logic
 
@@ -302,7 +294,6 @@ const Wrapper = styled.section`
   canvas {
     min-height: 100vh;
     width: 100vw;
-    background: radial-gradient(#0c0428, #030111);
   }
 `
 

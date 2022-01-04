@@ -36,6 +36,16 @@ const projectData = [
     link: '/hex-gallery'
   },
   {
+    name: 'Museum Scene',
+    img: '',
+    link: '/museum-scene'
+  },
+  {
+    name: 'Pixelated Decay',
+    img: '',
+    link: '/pixelated-decay'
+  },
+  {
     name: 'Pixel Rivers',
     img: thumbnails.pixelRivers,
     link: '/pixel-rivers'

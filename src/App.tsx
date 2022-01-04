@@ -15,6 +15,8 @@ import Transmission from './demos/Transmission';
 import Ripples from './demos/Ripples';
 import Billboard from './demos/Billboard';
 import HexGallery from './demos/HexGallery';
+import MuseumScene from './demos/MuseumScene';
+import PixelatedDecay from './demos/PixelatedDecay';
 
 function App() {
   return <>
@@ -22,17 +24,19 @@ function App() {
     <Wrapper className="smooth-scroll" data-scroll-wrapper>
       <Router>
         <Switch>
-          <Route path="/" exact        render={() => <Dashboard />   } />
-          <Route path="/arc-carousel"  render={() => <ArcCarousel/>  } />
-          <Route path="/billboard"     render={() => <Billboard />   } />
-          <Route path="/friction-text" render={() => <FrictionText/> } />
-          <Route path="/gooey-noise"   render={() => <GooeyNoise/>   } />
-          <Route path="/greenscreen"   render={() => <GreenScreen/>  } />
-          <Route path="/hex-gallery"   render={() => <HexGallery />  } />
-          <Route path="/pixel-rivers"  render={() => <PixelRivers /> } />
-          <Route path="/ripples"       render={() => <Ripples />     } />
-          <Route path="/transmission"  render={() => <Transmission/> } />
-          <Route path="/"              render={() => <FourOhFour />  } />
+          <Route path="/" exact          render={() => <Dashboard />      } />
+          <Route path="/arc-carousel"    render={() => <ArcCarousel/>     } />
+          <Route path="/billboard"       render={() => <Billboard />      } />
+          <Route path="/friction-text"   render={() => <FrictionText/>    } />
+          <Route path="/gooey-noise"     render={() => <GooeyNoise/>      } />
+          <Route path="/greenscreen"     render={() => <GreenScreen/>     } />
+          <Route path="/hex-gallery"     render={() => <HexGallery />     } />
+          <Route path="/museum-scene"    render={() => <MuseumScene />    } />
+          <Route path="/pixelated-decay" render={() => <PixelatedDecay /> } />
+          <Route path="/pixel-rivers"    render={() => <PixelRivers />    } />
+          <Route path="/ripples"         render={() => <Ripples />        } />
+          <Route path="/transmission"    render={() => <Transmission/>    } />
+          <Route path="/"                render={() => <FourOhFour />     } />
         </Switch>
       </Router>
     </Wrapper>
