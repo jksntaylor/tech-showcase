@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import styled from "styled-components"
 
 import brush from '../assets/ripples/brush.png'
-import hand from '../assets/ripples/hand.jpg'
+import hand from '../assets/ripples/bust.jpg'
 
 const Ripples: React.FC<{}> = () => {
 
@@ -47,17 +47,18 @@ const Ripples: React.FC<{}> = () => {
   }
 
   const touchMove = (e: TouchEvent) => {
-
+    currMouse.current.x = e.touches[0].clientX - window.innerWidth/2
+    currMouse.current.y = window.innerHeight/2 - e.touches[0].clientY
   }
 
-    useEffect(() => {
-      window.addEventListener('mousemove', mouseMove)
-      window.addEventListener('touchmove', touchMove)
-      return () => {
-        window.removeEventListener('mousemove', mouseMove)
-        window.removeEventListener('touchmove', touchMove)
-      }
-    })
+  useEffect(() => {
+    window.addEventListener('mousemove', mouseMove)
+    window.addEventListener('touchmove', touchMove)
+    return () => {
+      window.removeEventListener('mousemove', mouseMove)
+      window.removeEventListener('touchmove', touchMove)
+    }
+  })
   // END MOUSE LOGIC
 
   // SHADER LOGIC
@@ -121,7 +122,7 @@ const Ripples: React.FC<{}> = () => {
       nextMesh.position.y = currMouse.current.y
       nextMesh.visible = true
       nextMesh.material.opacity = 1
-      nextMesh.scale.x=nextMesh.scale.y = 1
+      nextMesh.scale.x = nextMesh.scale.y = 1
       currentMesh.current = (currentMesh.current + 1) % max
     }
     // END CREATE RIPPLE
@@ -131,7 +132,7 @@ const Ripples: React.FC<{}> = () => {
       if (mesh.visible) {
         mesh.rotation.z += 0.02
         mesh.material.opacity *= 0.98
-        mesh.scale.x=mesh.scale.y=0.982*mesh.scale.x + 0.107
+        mesh.scale.x=mesh.scale.y=0.985*mesh.scale.x + 0.15
       }
       if (mesh.material.opacity <= 0.001) mesh.visible = false
     })

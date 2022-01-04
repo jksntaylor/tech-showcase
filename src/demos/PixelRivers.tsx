@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useRef, useState } from "react"
 import { shaderMaterial, useTexture } from "@react-three/drei"
 import { extend, Canvas, ReactThreeFiber, useFrame, useThree } from "@react-three/fiber"
 import { EffectComposer, Noise } from "@react-three/postprocessing"
+import { BlendFunction } from "postprocessing"
 import * as THREE from 'three'
 import gsap from 'gsap'
 import styled from "styled-components"
@@ -76,12 +77,12 @@ const Effects: React.FC<{}> = () => {
 
   const handleUp = () => gsap.to(progress.current, {
     value: 0.62,
-    duration: 3,
+    duration: 2,
   })
 
   const handleDown = () => gsap.to(progress.current, {
     value: 0.002,
-    duration: 3
+    duration: 2
   })
 
   const { clock } = useThree()
@@ -106,7 +107,8 @@ const Effects: React.FC<{}> = () => {
     <PixelRiverEffect ref={effectRef} progress={realProgress} time={0}/>
     <Noise
       premultiply
-      // blendFunction={BlendFunction.NORMAL}
+      opacity={0.5}
+      blendFunction={BlendFunction.SCREEN}
     />
   </EffectComposer>
 }

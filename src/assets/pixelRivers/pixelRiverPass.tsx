@@ -10,9 +10,9 @@ const fragmentShader = `
     vec2 p = 2.*uv - vec2(1.);
 
     p += 0.1 * cos(4.0 * p.yx + 1.3*time + vec2(1.2, 3.4));
-    p += 0.2 * cos(5.7 * p.yx + 2.9*time + vec2(2.2, 3.4));
-    p += 0.3 * cos(6.0 * p.yx + 3.7*time + vec2(4.2, 1.4));
-    p += 0.6 * cos(7.0 * p.yx + 8.9*time + vec2(9.2, 3.4));
+    p += 0.2 * cos(5.7 * p.yx + 2.3*time + vec2(2.2, 3.4));
+    p += 0.3 * cos(6.0 * p.yx + 2.9*time + vec2(4.2, 1.4));
+    p += 0.6 * cos(7.0 * p.yx + 4.1*time + vec2(9.2, 3.4));
 
     vec2 newUV = uv;
     newUV.x = mix(uv.x, length(p), progress);
@@ -41,7 +41,7 @@ class PixelRiverPass extends Effect {
     _uTime = props.time
   }
 
-  update(x: any, y: any, delta: number) {
+  update() {
     this.uniforms.get('progress').value = _uProgress
     this.uniforms.get('time').value += _uTime * 0.2
   }

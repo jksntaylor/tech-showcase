@@ -38,7 +38,6 @@ const HexPixelMaterial = shaderMaterial({
     vec4 blackAndWhite = vec4(vec3(lum), 1.0);
     vec4 colored = texture2D(map, vUv);
     gl_FragColor = mix(blackAndWhite, colored, color);
-    // gl_FragColor = vec4(vUv.x, 0., vUv.y, 1.);
   }
 `)
 
