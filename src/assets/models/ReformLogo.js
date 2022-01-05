@@ -15,9 +15,9 @@ export default function Model({ ...props }) {
     color: 0xFFFFFF,
     roughness: 0.05,
     transmission: 1,
-    clearcoat: 1,
-    clearcoatRoughness: 0.5,
-    thickness: 100
+    clearcoat: 0.5,
+    clearcoatRoughness: 1,
+    thickness: 10
   })
 
   return (
