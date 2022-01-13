@@ -1,9 +1,10 @@
 import React, { Suspense, useState, useEffect, useRef } from "react"
 import * as THREE from 'three'
-import { Canvas } from "@react-three/fiber"
+import { Canvas, useFrame } from "@react-three/fiber"
 import styled from "styled-components"
 import Model from "../assets/models/ReformLogo"
 import { Environment, OrbitControls, useTexture } from "@react-three/drei"
+import { Mesh } from "three"
 
 const Image: React.FC<{}> = () => {
   const texture1 = useTexture('https://images.unsplash.com/photo-1495069781661-dfeacdef0531?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80')
@@ -32,17 +33,38 @@ const Image: React.FC<{}> = () => {
 </mesh>
 }
 
-const Transmission: React.FC<{}> = () => {
+const Glass: React.FC<{}> = () => {
+  const glassRef = useRef<Mesh>(null!)
 
+  useFrame(() => {
+    // console.log(glassRef.current)
+    glassRef.current.rotation.set(glassRef.current.rotation.x + 0.03, glassRef.current.rotation.y + 0.01, 0)
+  })
+
+  return <mesh ref={glassRef}>
+    <octahedronGeometry args={[100, 0]} />
+    <meshPhysicalMaterial
+      color="white"
+      transmission={1}
+      roughness={0.005}
+      thickness={350}
+      clearcoat={1}
+      clearcoatRoughness={0}
+    />
+  </mesh>
+}
+
+const Transmission: React.FC<{}> = () => {
 
   return <Wrapper data-scroll-section>
     <Suspense fallback={<></>}>
     <Canvas camera={{ position: [0, 0, 250]}} dpr={2}>
       <ambientLight intensity={0.5} />
-      <Image />
-      <Model />
+      {/* <Image /> */}
+      {/* <Model /> */}
+      <Glass />
       <OrbitControls />
-      <Environment preset="warehouse" background/>
+      <Environment preset="sunset" background/>
     </Canvas>
     </Suspense>
   </Wrapper>
