@@ -58,16 +58,16 @@ const WavySunriseOuterMaterial = shaderMaterial({
 
   void main() {
     float n = noise(vPosition + (time * 0.4)) * 1.3;
-    vec3 colorOne = vec3(255./255., 230./255., 242./255.);
-    vec3 colorThree = vec3(140./255., 140./255., 255./255.);
-    vec3 colorTwo = vec3(157./255., 214./255., 255./255.);
+    vec3 color1 = vec3(237./255., 243./255., 249./255.);
+    vec3 color2 = vec3(246./255., 223./255., 155./255.);
+    vec3 color3 = vec3(255./255., 121./255., 56./255.);
 
     vec2 base = rotate2D(n + 0.5)*vPosition.xy*0.05;
     float basePattern = lines(base, 0.7);
     float secondPattern = lines(base, 0.1);
 
-    vec3 baseColor = mix(colorThree, colorOne, basePattern);
-    vec3 secondBaseColor = mix(baseColor, colorTwo, secondPattern);
+    vec3 baseColor = mix(color3, color1, basePattern);
+    vec3 secondBaseColor = mix(baseColor, color2, secondPattern);
 
     gl_FragColor = vec4(vec3(secondBaseColor), 1.);
   }
@@ -171,8 +171,8 @@ const WavySunriseScene: React.FC<{}> = () => {
       <sphereBufferGeometry args={[1.5, 64, 64]} />
       <wavySunriseOuterMaterial time={0} ref={rOuterMaterial} attach="material"/>
     </mesh>
-    <mesh position={ new Vector3(0.6, 0.1, 0) }>
-      <torusBufferGeometry args={[1, 0.5, 64, 64]} />
+    <mesh position={ new Vector3(0.5, -0.3, 0) }>
+      <sphereBufferGeometry args={[0.6, 64, 64]} />
       <wavySunriseInnerMaterial tCube={0} ref={rInnerMaterial} attach="material" />
     </mesh>
   </group>
@@ -205,7 +205,8 @@ const grain = keyframes`
 `;
 
 const Noise = styled.div`
-  animation: ${grain} 3s steps(6) infinite;
+  pointer-events: none;
+  animation: ${grain} 2s steps(6) infinite;
   width: calc(100% + 20rem);
   height: calc(100% + 20rem);
   background-position: 50%;
