@@ -171,8 +171,8 @@ const WavySunriseScene: React.FC<{}> = () => {
       <sphereBufferGeometry args={[1.5, 64, 64]} />
       <wavySunriseOuterMaterial time={0} ref={rOuterMaterial} attach="material"/>
     </mesh>
-    <mesh position={ new Vector3(0.4, 0.1, 0) }>
-      <sphereBufferGeometry args={[1, 64, 64]} />
+    <mesh position={ new Vector3(0.6, 0.1, 0) }>
+      <torusBufferGeometry args={[1, 0.5, 64, 64]} />
       <wavySunriseInnerMaterial tCube={0} ref={rInnerMaterial} attach="material" />
     </mesh>
   </group>
