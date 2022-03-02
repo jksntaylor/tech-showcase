@@ -47,7 +47,7 @@ const Glass: React.FC<{}> = () => {
     <meshPhysicalMaterial
       color="white"
       transmission={1}
-      roughness={0.005}
+      roughness={0}
       thickness={350}
       clearcoat={1}
       clearcoatRoughness={0}
@@ -65,7 +65,7 @@ const Transmission: React.FC<{}> = () => {
       {/* <Model /> */}
       <Glass />
       <OrbitControls />
-      <Environment preset="sunset" background/>
+      <Environment preset="forest" background/>
     </Canvas>
     </Suspense>
   </Wrapper>

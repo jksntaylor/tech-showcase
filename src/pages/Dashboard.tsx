@@ -16,6 +16,11 @@ const projectData = [
     link: '/billboard'
   },
   {
+    name: 'Emboss',
+    img: '',
+    link: '/emboss'
+  },
+  {
     name: 'Friction Text',
     img: thumbnails.frictionText,
     link: '/friction-text'
@@ -59,6 +64,11 @@ const projectData = [
     name: 'Transmission',
     img: thumbnails.transmission,
     link: '/transmission'
+  },
+  {
+    name: 'Wavy Sunrise',
+    img: '',
+    link: '/wavy-sunrise'
   }
 ]
 

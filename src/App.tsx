@@ -7,16 +7,18 @@ import Dashboard  from './pages/Dashboard';
 import FourOhFour from './pages/404';
 
 import ArcCarousel  from './demos/ArcCarousel';
+import Billboard from './demos/Billboard';
+import Emboss from './demos/Emboss';
 import FrictionText from './demos/FrictionText';
 import GooeyNoise   from './demos/GooeyNoise';
 import GreenScreen  from './demos/GreenScreen';
-import PixelRivers  from './demos/PixelRivers';
-import Transmission from './demos/Transmission';
-import Ripples from './demos/Ripples';
-import Billboard from './demos/Billboard';
 import HexGallery from './demos/HexGallery';
 import MuseumScene from './demos/MuseumScene';
 import PixelatedDecay from './demos/PixelatedDecay';
+import PixelRivers  from './demos/PixelRivers';
+import Ripples from './demos/Ripples';
+import Transmission from './demos/Transmission';
+import WavySunrise from './demos/WavySunrise';
 
 function App() {
   return <>
@@ -27,6 +29,7 @@ function App() {
           <Route path="/" exact          render={() => <Dashboard />      } />
           <Route path="/arc-carousel"    render={() => <ArcCarousel/>     } />
           <Route path="/billboard"       render={() => <Billboard />      } />
+          <Route path="/emboss"          render={() => <Emboss />         } />
           <Route path="/friction-text"   render={() => <FrictionText/>    } />
           <Route path="/gooey-noise"     render={() => <GooeyNoise/>      } />
           <Route path="/greenscreen"     render={() => <GreenScreen/>     } />
@@ -36,6 +39,7 @@ function App() {
           <Route path="/pixel-rivers"    render={() => <PixelRivers />    } />
           <Route path="/ripples"         render={() => <Ripples />        } />
           <Route path="/transmission"    render={() => <Transmission/>    } />
+          <Route path="/wavy-sunrise"    render={() => <WavySunrise/>    } />
           <Route path="/"                render={() => <FourOhFour />     } />
         </Switch>
       </Router>
