@@ -49,7 +49,7 @@ const WavySunriseOuterMaterial = shaderMaterial({
   }
 
   float lines(vec2 uv, float offset) {
-    return smoothstep(0.0, 0.5 + offset * 0.5, abs(0.5*(sin(uv.x*50.) + offset*2.)));
+    return smoothstep(0.0, 0.5 + offset * 0.5, abs(0.5*(sin(uv.x*20.) + offset*2.)));
   }
 
   mat2 rotate2D(float angle) {
@@ -57,7 +57,7 @@ const WavySunriseOuterMaterial = shaderMaterial({
   }
 
   void main() {
-    float n = noise(vPosition + (time * 0.4)) * 1.3;
+    float n = noise(vPosition + (time * 0.15)) * 1.3;
     vec3 color1 = vec3(237./255., 243./255., 249./255.);
     vec3 color2 = vec3(246./255., 223./255., 155./255.);
     vec3 color3 = vec3(255./255., 121./255., 56./255.);
@@ -171,7 +171,7 @@ const WavySunriseScene: React.FC<{}> = () => {
       <sphereBufferGeometry args={[1.5, 64, 64]} />
       <wavySunriseOuterMaterial time={0} ref={rOuterMaterial} attach="material"/>
     </mesh>
-    <mesh position={ new Vector3(0.5, -0.3, 0) }>
+    <mesh position={ new Vector3(0.5, -0.3, 0.5) }>
       <sphereBufferGeometry args={[0.6, 64, 64]} />
       <wavySunriseInnerMaterial tCube={0} ref={rInnerMaterial} attach="material" />
     </mesh>
