@@ -142,26 +142,26 @@ const WavySunriseScene: React.FC<{}> = () => {
   const rOuterMaterial = useRef<WavySunriseOuterType>(null!)
   const rInnerMaterial = useRef<WavySunriseInnerType>(null!)
 
-  const [renderTarget, setRenderTarget]: any = useState(new WebGLCubeRenderTarget(256, {
+  const renderTarget = useRef(new WebGLCubeRenderTarget(256, {
     format: RGBAFormat,
     generateMipmaps: true,
     minFilter: LinearMipmapLinearFilter,
     encoding: sRGBEncoding
   }))
 
-  const [cubeCamera, setCubeCamera]: any = useState(new CubeCamera(0.1, 10, renderTarget))
+  const [cubeCamera, setCubeCamera]: any = useState(new CubeCamera(0.1, 10, renderTarget.current))
 
   useEffect(() => {
     if (rOuterMaterial.current) rOuterMaterial.current.side = DoubleSide
 
-    setCubeCamera(new CubeCamera(0.1, 10, renderTarget))
+    setCubeCamera(new CubeCamera(0.1, 10, renderTarget.current))
 
   }, [])
 
   useFrame(({gl, scene}, delta) => {
     if (!gl.clearColor) gl.setClearColor('0x000000')
     cubeCamera.update(gl, scene)
-    rInnerMaterial.current.tCube = renderTarget.texture
+    rInnerMaterial.current.tCube = renderTarget.current.texture
 
     rOuterMaterial.current.time += delta
   })
