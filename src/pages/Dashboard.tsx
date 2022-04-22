@@ -5,20 +5,10 @@ import styled from "styled-components"
 import thumbnails from "../assets/thumbnails/exports"
 
 const projectData = [
-  // {
-  //   name: 'Arc Carousel',
-  //   img: '',
-  //   link: '/arc-carousel'
-  // },
   {
     name: 'Billboard Material',
     img: thumbnails.billboard,
     link: '/billboard'
-  },
-  {
-    name: 'Emboss',
-    img: '',
-    link: '/emboss'
   },
   {
     name: 'Friction Text',
@@ -42,13 +32,13 @@ const projectData = [
   },
   {
     name: 'Museum Scene',
-    img: '',
+    img: thumbnails.museumScene,
     link: '/museum-scene'
   },
   {
-    name: 'Pixelated Decay',
-    img: '',
-    link: '/pixelated-decay'
+    name: 'Neon Canyon',
+    img: thumbnails.wavySunrise,
+    link: '/neon-canyon'
   },
   {
     name: 'Pixel Rivers',
@@ -67,7 +57,7 @@ const projectData = [
   },
   {
     name: 'Wavy Sunrise',
-    img: '',
+    img: thumbnails.wavySunrise,
     link: '/wavy-sunrise'
   }
 ]

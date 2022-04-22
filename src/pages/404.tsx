@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 
-const FourOhFour: React.FC<{}> = () => <Wrapper><Back to="/">Back</Back>404: Page Not Found</Wrapper>
+const FourOhFour: React.FC<{}> = () => <Wrapper><Back to="/">Back</Back>what are you trying to find lol, get outta here</Wrapper>
 
 const Wrapper = styled.section`
   background: radial-gradient(#2d2d2e, #0c0c0c);
