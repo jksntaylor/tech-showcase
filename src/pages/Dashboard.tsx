@@ -16,6 +16,11 @@ const projectData = [
     link: '/friction-text'
   },
   {
+    name: 'Folio 2022 Floor',
+    img: thumbnails.wavySunrise,
+    link: '/folio22-floor'
+  },
+  {
     name: 'Gooey Noise',
     img: thumbnails.gooeyNoise,
     link: '/gooey-noise'

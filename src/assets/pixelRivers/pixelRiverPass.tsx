@@ -42,7 +42,9 @@ class PixelRiverPass extends Effect {
   }
 
   update() {
+    // @ts-ignore
     this.uniforms.get('progress').value = _uProgress
+    // @ts-ignore
     this.uniforms.get('time').value += _uTime * 0.2
   }
 }

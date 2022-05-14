@@ -27,6 +27,7 @@ const BillboardMaterial = shaderMaterial({
 
 type BillboardMaterialType = {
   map: THREE.Texture
+  side: THREE.Side
 }
 
 declare global { namespace JSX { interface IntrinsicElements {
@@ -37,11 +38,11 @@ extend({ BillboardMaterial })
 
 const Billboard: React.FC<{}> = () => {
 
-  const mat = useRef(new BillboardMaterial())
+  const mat = useRef<BillboardMaterialType>(null!)
 
   const texture = useTexture('https://images.unsplash.com/photo-1637717256696-a0204d03a8fe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1364&q=80')
   useEffect(() => {
-    mat.current.uniforms.map.value = texture
+    mat.current.map = texture
     mat.current.side = THREE.DoubleSide
   }, [texture])
 

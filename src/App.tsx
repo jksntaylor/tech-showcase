@@ -1,6 +1,7 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+// @ts-nocheck
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components'
-import Scroll from './utils/Scroll';
+// import Scroll from './utils/Scroll';
 import './styles/App.css';
 
 import Dashboard  from './pages/Dashboard';
@@ -17,28 +18,30 @@ import PixelRivers  from './demos/PixelRivers';
 import Ripples from './demos/Ripples';
 import Transmission from './demos/Transmission';
 import WavySunrise from './demos/WavySunrise';
+import Folio22Floor from './demos/Folio22Floor';
 
 function App() {
   return <>
     {/* <Scroll /> */}
     <Wrapper className="smooth-scroll" data-scroll-wrapper>
-      <Router>
-        <Switch>
-          <Route path="/" exact          render={() => <Dashboard />      } />
-          <Route path="/billboard"       render={() => <Billboard />      } />
-          <Route path="/friction-text"   render={() => <FrictionText/>    } />
-          <Route path="/gooey-noise"     render={() => <GooeyNoise/>      } />
-          <Route path="/greenscreen"     render={() => <GreenScreen/>     } />
-          <Route path="/hex-gallery"     render={() => <HexGallery />     } />
-          <Route path="/museum-scene"    render={() => <MuseumScene />    } />
-          <Route path="/neon-canyon"     render={() => <NeonCanyon />    } />
-          <Route path="/pixel-rivers"    render={() => <PixelRivers />    } />
-          <Route path="/ripples"         render={() => <Ripples />        } />
-          <Route path="/transmission"    render={() => <Transmission/>    } />
-          <Route path="/wavy-sunrise"    render={() => <WavySunrise/>    } />
-          <Route path="/"                render={() => <FourOhFour />     } />
-        </Switch>
-      </Router>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/"               element={<Dashboard />} />
+          <Route path="billboard"       element={<Billboard />} />
+          <Route path="friction-text"   element={<FrictionText/>} />
+          <Route path="folio22-floor"   element={<Folio22Floor />} />
+          <Route path="gooey-noise"     element={<GooeyNoise/>} />
+          <Route path="greenscreen"     element={<GreenScreen/>} />
+          <Route path="hex-gallery"     element={<HexGallery />} />
+          <Route path="museum-scene"    element={<MuseumScene />} />
+          <Route path="neon-canyon"     element={<NeonCanyon />} />
+          <Route path="pixel-rivers"    element={<PixelRivers />} />
+          <Route path="ripples"         element={<Ripples />} />
+          <Route path="transmission"    element={<Transmission/>} />
+          <Route path="wavy-sunrise"    element={<WavySunrise/>} />
+          <Route path="/"                element={<FourOhFour />} />
+        </Routes>
+      </BrowserRouter>
     </Wrapper>
   </>
 }

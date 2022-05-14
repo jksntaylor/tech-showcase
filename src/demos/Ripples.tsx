@@ -22,7 +22,7 @@ const Ripples: React.FC<{}> = () => {
   // MESH LOGIC
   let max = 250;
   let meshes: any[] = []
-  const meshesRef = useRef(<group></group>)
+  const meshesRef = useRef(null!)
   const currentMesh = useRef(0)
 
   useEffect(() => {
