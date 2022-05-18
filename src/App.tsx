@@ -19,6 +19,7 @@ import Ripples from './demos/Ripples';
 import Transmission from './demos/Transmission';
 import WavySunrise from './demos/WavySunrise';
 import Folio22Floor from './demos/Folio22Floor';
+import MerchStore from './demos/MerchStore';
 
 function App() {
   return <>
@@ -26,20 +27,21 @@ function App() {
     <Wrapper className="smooth-scroll" data-scroll-wrapper>
       <BrowserRouter>
         <Routes>
-          <Route path="/"               element={<Dashboard />} />
-          <Route path="billboard"       element={<Billboard />} />
-          <Route path="friction-text"   element={<FrictionText/>} />
-          <Route path="folio22-floor"   element={<Folio22Floor />} />
-          <Route path="gooey-noise"     element={<GooeyNoise/>} />
-          <Route path="greenscreen"     element={<GreenScreen/>} />
-          <Route path="hex-gallery"     element={<HexGallery />} />
-          <Route path="museum-scene"    element={<MuseumScene />} />
-          <Route path="neon-canyon"     element={<NeonCanyon />} />
-          <Route path="pixel-rivers"    element={<PixelRivers />} />
-          <Route path="ripples"         element={<Ripples />} />
-          <Route path="transmission"    element={<Transmission/>} />
-          <Route path="wavy-sunrise"    element={<WavySunrise/>} />
-          <Route path="/"                element={<FourOhFour />} />
+          <Route path="/"             element={<Dashboard />}    />
+          <Route path="merch-store"   element={<MerchStore />}   />
+          <Route path="billboard"     element={<Billboard />}    />
+          <Route path="friction-text" element={<FrictionText/>}  />
+          <Route path="folio22-floor" element={<Folio22Floor />} />
+          <Route path="gooey-noise"   element={<GooeyNoise/>}    />
+          <Route path="greenscreen"   element={<GreenScreen/>}   />
+          <Route path="hex-gallery"   element={<HexGallery />}   />
+          <Route path="museum-scene"  element={<MuseumScene />}  />
+          <Route path="neon-canyon"   element={<NeonCanyon />}   />
+          <Route path="pixel-rivers"  element={<PixelRivers />}  />
+          <Route path="ripples"       element={<Ripples />}      />
+          <Route path="transmission"  element={<Transmission/>}  />
+          <Route path="wavy-sunrise"  element={<WavySunrise/>}   />
+          <Route path="/"             element={<FourOhFour />}   />
         </Routes>
       </BrowserRouter>
     </Wrapper>

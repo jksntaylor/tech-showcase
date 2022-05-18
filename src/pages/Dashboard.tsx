@@ -6,6 +6,11 @@ import thumbnails from "../assets/thumbnails/exports"
 
 const projectData = [
   {
+    name: '3D Merch Store',
+    img: thumbnails.transmission,
+    link: '/merch-store'
+  },
+  {
     name: 'Billboard Material',
     img: thumbnails.billboard,
     link: '/billboard'
